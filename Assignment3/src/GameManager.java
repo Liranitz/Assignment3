@@ -2,6 +2,8 @@ import java.util.LinkedList;
 
 public class GameManager {
     private LinkedList<GameBoard> boards;
+    private LinkedList<Enemy> enemies;
+    protected Player player;
 
     public GameManager(LinkedList<GameBoard> boards){
         this.boards = boards;
@@ -18,4 +20,5 @@ public class GameManager {
     public void EndGame(){
 
     }
+
 }
