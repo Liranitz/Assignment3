@@ -1,3 +1,8 @@
+package Tiles;
+
+import Tiles.Units.Enemy;
+import Tiles.Units.Player;
+
 public abstract class Unit extends Tile {
 	...
 

@@ -1,8 +1,10 @@
-public class Player extends Unit{
+package Tiles.Units;
+
+public class Player extends Unit {
     Resource resource;
     Integer experience;
     Integer level;
-    public Player (Resource resource ,Integer experience, Integer level) {
+    public Player (Resource resource , Integer experience, Integer level) {
         this.experience = experience;
         this.resource = resource;
         this.level = level;

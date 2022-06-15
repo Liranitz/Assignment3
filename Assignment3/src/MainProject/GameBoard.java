@@ -1,3 +1,9 @@
+package MainProject;
+
+import Tiles.Tile;
+import Tiles.Units.Enemy;
+import Tiles.Units.Player;
+
 import javax.swing.text.Position;
 import java.util.ArrayList;
 import java.util.Arrays;

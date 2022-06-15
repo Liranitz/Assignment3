@@ -1,3 +1,14 @@
+package Tiles;
+
+import Tiles.Tile;
+import Tiles.Units.Enemy;
+import Tiles.Units.Player;
+import Tiles.Units.Players.Hunter;
+import Tiles.Units.Players.Mage;
+import Tiles.Units.Players.Rogue;
+import Tiles.Units.Players.Warrior;
+import Tiles.Wall;
+
 public class TileFactory {
     private List<Supplier<Player>> playersList;
     private Map<Character, Supplier<Enemy>> enemiesMap;
