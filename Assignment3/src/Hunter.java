@@ -1,0 +1,8 @@
+public class Hunter extends Player{
+    private Integer range;
+    private Integer arrowsCount;
+    private Integer ticksCount;
+    public Hunter(Resource resource, Integer experience, Integer level) {
+        super(resource, experience, level);
+    }
+}
