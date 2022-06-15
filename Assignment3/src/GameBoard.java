@@ -1,3 +1,4 @@
+import javax.swing.text.Position;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -8,19 +9,19 @@ public class GameBoard {
     private List<Enemy> enemyList;
 
     public GameBoard(Tile[][] board){
-		tiles = new ArrayList<>();
+        tiles = new ArrayList<>();
         for(Tile[] line : board){
             tiles.addAll(Arrays.asList(line));
         }
     }
 
     public Tile get(int x, int y) {
-		for(Tile t : tiles){
-			if (t.getPosition().equals(Position.at(x, y))){
-				return t;
-			}
-		}
-		// Throw an exception if no such tile.
+        for(Tile t : tiles){
+            if (t.getPosition().equals(Position.at(x, y))){
+                return t;
+            }
+        }
+        // Throw an exception if no such tile.
     }
 
     public void remove(Enemy e) {
