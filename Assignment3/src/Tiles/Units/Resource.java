@@ -1,3 +1,5 @@
+package Tiles.Units;
+
 public class Resource {
     Integer pool;
     Integer amount;

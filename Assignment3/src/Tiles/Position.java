@@ -1,3 +1,5 @@
+package Tiles;
+
 public class Position {
     protected Integer xcoordinate;
     protected Integer ycoordinate;
