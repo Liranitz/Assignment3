@@ -1,13 +1,22 @@
 package Tiles;
 
-import Tiles.Tile;
-import Tiles.Units.Enemy;
-import Tiles.Units.Player;
+
+import Tiles.Units.Enemy.Enemy;
+import Tiles.Units.Enemy.Monster;
+import Tiles.Units.Enemy.Trap;
+import Tiles.Units.HeroicUnit.Boss;
+import Tiles.Units.Players.Player;
 import Tiles.Units.Players.Hunter;
 import Tiles.Units.Players.Mage;
 import Tiles.Units.Players.Rogue;
 import Tiles.Units.Players.Warrior;
-import Tiles.Wall;
+
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.function.Function;
+import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class TileFactory {
     private List<Supplier<Player>> playersList;
@@ -32,9 +41,9 @@ public class TileFactory {
                 () -> new Boss('M', "The Mountain", 1000, 60, 25, 500, 6, 5),
                 () -> new Boss('C', "Queen Cersei", 100, 10, 10, 1000, 1, 8),
                 () -> new Boss('K', "Night's King", 5000, 300, 150, 5000, 8, 3),
-                () -> new Trap('B', "Bonus Trap", 1, 1, 1, 250, 1, 10),
-                () -> new Trap('Q', "Queen's Trap", 250, 50, 10, 100, 3, 10),
-                () -> new Trap('D', "Death Trap", 500, 100, 20, 250, 1, 10)
+                () -> new Trap('B', "Bonus Tiles.Units.Enemy.Trap", 1, 1, 1, 250, 1, 10),
+                () -> new Trap('Q', "Queen's Tiles.Units.Enemy.Trap", 250, 50, 10, 100, 3, 10),
+                () -> new Trap('D', "Death Tiles.Units.Enemy.Trap", 500, 100, 20, 250, 1, 10)
         );
 
         return enemies.stream().collect(Collectors.toMap(s -> s.get().getTile(), Function.identity()));

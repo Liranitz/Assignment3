@@ -1,5 +1,7 @@
 package Tiles;
 
+import Tiles.Units.Unit;
+
 public abstract class Tile implements Comparable<Tile> {
     protected char tile;
     protected Position position;

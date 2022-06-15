@@ -1,7 +1,5 @@
 package Tiles.Units.Players;
 
-import Tiles.Units.Player;
-
 public class Warrior extends Player {
     private  Integer abilityCooldown;
     private  Integer remainingCooldown;

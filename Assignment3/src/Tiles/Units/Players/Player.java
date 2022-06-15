@@ -1,4 +1,6 @@
-package Tiles.Units;
+package Tiles.Units.Players;
+
+import Tiles.Units.Resource;
 
 public class Player extends Unit {
     Resource resource;

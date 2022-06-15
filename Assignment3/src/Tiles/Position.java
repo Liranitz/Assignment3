@@ -6,7 +6,8 @@ public class Position {
     public double Range(Position other){
         return 0;
     }
-    public Position tranlate(Integer x , Integery){
+    public Position tranlate(Integer x , Integer y){
         return null;
     }
+
 }

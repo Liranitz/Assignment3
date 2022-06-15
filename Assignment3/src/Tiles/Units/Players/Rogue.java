@@ -1,7 +1,5 @@
 package Tiles.Units.Players;
 
-import Tiles.Units.Player;
-
 public class Rogue extends Player {
     private Integer cost;
     private Integer currentEnergy;

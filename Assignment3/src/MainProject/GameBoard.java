@@ -2,7 +2,7 @@ package MainProject;
 
 import Tiles.Tile;
 import Tiles.Units.Enemy;
-import Tiles.Units.Player;
+import Tiles.Units.Players.Player;
 
 import javax.swing.text.Position;
 import java.util.ArrayList;

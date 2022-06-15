@@ -1,7 +1,5 @@
 package Tiles.Units.Players;
 
-import Tiles.Units.Player;
-
 public class Mage extends Player {
     private Integer manaPool;
     private Integer currentMana;
