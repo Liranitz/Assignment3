@@ -1,9 +1,15 @@
 public abstract class Unit extends Tile {
-	...
+	protected String name;
+    protected Resource health;
+    protected int attackPoints;
+    protected int defensePoints;
 
     protected Unit(char tile, String name, int healthCapacity, int attack, int defense) {
         super(tile);
-        ...
+        this.name = name;
+        this.health = new Resource(healthCapacity);
+        this.attackPoints = attack;
+        this.defensePoints = defense;
     }
 
     protected void initialize(Position position, MessageCallback messageCallback){
@@ -33,8 +39,13 @@ public abstract class Unit extends Tile {
 		...
     }
 
+    public void visit(Wall e){
+		...
+    }
+
     public abstract void visit(Player p);
     public abstract void visit(Enemy e);
+
 
 	// Combat against another unit.
     protected void battle(Unit u){
@@ -43,6 +54,6 @@ public abstract class Unit extends Tile {
 
 
     public String describe() {
-        return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", getName(), getHealth(), getAttack(), getDefense());
+        return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.healthAmount, attackPoints, defensePoints);
     }
 }
