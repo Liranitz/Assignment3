@@ -1,8 +1,14 @@
+package Tiles;
+
+import Tiles.Units.Enemy;
+import Tiles.Units.Player;
+
 public abstract class Unit extends Tile {
 	protected String name;
     protected Resource health;
     protected int attackPoints;
     protected int defensePoints;
+    protected  MessageCallback messageCallback;
 
     protected Unit(char tile, String name, int healthCapacity, int attack, int defense) {
         super(tile);
@@ -36,11 +42,11 @@ public abstract class Unit extends Tile {
     }
 
     public void visit(Empty e){
-		...
+		swapPositions(e);
     }
 
     public void visit(Wall e){
-		...
+
     }
 
     public abstract void visit(Player p);

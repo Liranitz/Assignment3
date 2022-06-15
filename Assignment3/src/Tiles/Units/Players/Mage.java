@@ -1,4 +1,8 @@
-public class Mage extends Player{
+package Tiles.Units.Players;
+
+import Tiles.Units.Player;
+
+public class Mage extends Player {
     private Integer manaPool;
     private Integer currentMana;
     private Integer manaCost;
@@ -7,5 +11,11 @@ public class Mage extends Player{
     private Integer abilityRange;
     public Mage(Resource resource, Integer experience, Integer level) {
         super(resource, experience, level);
+    }
+
+
+    public void LevelUp(){
+        super(LevelUp());
+        // adding the specific level
     }
 }
