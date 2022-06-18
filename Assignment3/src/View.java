@@ -18,8 +18,7 @@ public class View {
         try {
             lines = Files.readAllLines(Paths.get(path));
         } catch (IOException e) {
-            System.out.println(e.getMessage() + "\n" +
-                    e.getStackTrace());
+            System.out.println(e.getMessage() + "\n" +  e.getStackTrace());
         }
         return lines;
     }
