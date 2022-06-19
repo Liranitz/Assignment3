@@ -8,9 +8,9 @@ public abstract class Enemy extends Unit  {
 
     protected int experienceValue;
     protected EnemyDeathCallback edCallback;
-    public Enemy(char tile,String name,int healthPool,int attackPoints,int defensePoints){
+    public Enemy(char tile,String name,int healthPool,int attackPoints,int defensePoints,int experienceValue){
         super(tile,name,healthPool,attackPoints,defensePoints);
-        experienceValue =0;
+        this.experienceValue =experienceValue;
     }
 
     public void SetDeathCallback(EnemyDeathCallback edCallback){
@@ -34,7 +34,7 @@ public abstract class Enemy extends Unit  {
 
     @Override
     public void visit(Player p) {
-
+    battle(p);
     }
 
     @Override

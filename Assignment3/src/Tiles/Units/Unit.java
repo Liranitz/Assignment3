@@ -48,7 +48,7 @@ public abstract class Unit extends Tile {
     }
 
     public void AddAmount(int amount){
-
+        health.amount = health.amount+amount;
     }
     public void ReduceAmount(int amount){
         health.amount = health.amount-amount;
@@ -96,6 +96,6 @@ public abstract class Unit extends Tile {
 
 
     public String describe() {
-        return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.healthAmount, attackPoints, defensePoints);
+        return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.getAmount(), attackPoints, defensePoints);
     }
 }
