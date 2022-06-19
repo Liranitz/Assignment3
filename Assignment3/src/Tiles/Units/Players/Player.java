@@ -1,5 +1,6 @@
 package Tiles.Units.Players;
 
+import MainProject.Action;
 import MainProject.InputProvider;
 import MainProject.InputQuery;
 import Tiles.Units.Enemy.Enemy;
@@ -14,7 +15,7 @@ public class Player extends Unit{
 
 
 
-    public Player (Resource resource , Integer experience, Integer level,) {
+    public Player (Resource resource , Integer experience, Integer level) {
         super('@',);
         this.experience = experience;
         this.resource = resource;
@@ -32,7 +33,7 @@ public class Player extends Unit{
     }
 
 
-    public char GetInput() {
+    public Action GetInput() {
         return inputProvider.getInput();
     }
 
@@ -53,11 +54,11 @@ public class Player extends Unit{
 
     @Override
     public void visit(Player p) {
-
+        //empty implementation
     }
 
     @Override
     public void visit(Enemy e) {
-    battle();
+    battle(e);
     }
 }

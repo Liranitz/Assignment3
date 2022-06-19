@@ -1,6 +1,5 @@
 package MainProject;
 
-import java.util.Locale;
 import java.util.Scanner;
 
 public class InputProvider implements InputQuery {
@@ -11,7 +10,7 @@ public class InputProvider implements InputQuery {
     }
 
 
-    public char getInput() {
+    public Action getInput() {
         String input="";
         String valid = "wasdqe";
         boolean loop = true;
@@ -25,6 +24,25 @@ public class InputProvider implements InputQuery {
                 System.out.println("invalid input - Please enter a valid input");
             }
         }
-        return input.charAt(0);
+        switch(input.charAt(0)) {
+            case 'w':
+                return Action.UP;
+
+            case 'a':
+                return Action.LEFT;
+
+            case 'd':
+                return Action.RIGHT;
+
+            case 's':
+                return Action.DOWN;
+
+            case 'e':
+                return Action.SPECIALABILITY;
+
+            case 'q':
+                return Action.NOTHING;
+        }
+        return Action.NOTHING;
     }
 }

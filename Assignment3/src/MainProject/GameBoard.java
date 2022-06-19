@@ -34,7 +34,7 @@ public class GameBoard {
 
     }
 
-    public void add(Unit u) {
+    public void add(Tile u) {
        //Tile t =  get(u.getPosition().,u.y)
 
     }

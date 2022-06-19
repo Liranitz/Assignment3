@@ -1,6 +1,8 @@
 package Tiles.Units.Enemy;
 
 import CallBacks.EnemyDeathCallback;
+import MainProject.Action;
+import MainProject.Direction;
 import Tiles.Units.Players.Player;
 import Tiles.Units.Unit;
 
@@ -14,18 +16,16 @@ public abstract class Enemy extends Unit  {
     }
 
     public void SetDeathCallback(EnemyDeathCallback edCallback){
-        this.edCallback=edCallback;
-    }
-
-    public void call() {
-
+       edCallback.call();
     }
 
     @Override
     public void accept(Unit unit) {
 
     }
-    public abstract void processStep() ;
+    public abstract void processStep(Player player) ;
+
+    public abstract Action EnemyTurn(Player player) ;
 
     @Override
     public void onDeath() {
@@ -33,12 +33,8 @@ public abstract class Enemy extends Unit  {
     }
 
     @Override
-    public void visit(Player p) {
-    battle(p);
-    }
+    public void visit(Player p) {battle(p);}
 
     @Override
-    public void visit(Enemy e) {
-
-    }
+    public void visit(Enemy e) {}
 }

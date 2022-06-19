@@ -56,7 +56,7 @@ public abstract class Unit extends Tile {
 
 
 	// Should be automatically called once the unit finishes its turn
-    public abstract void processStep();
+    //public abstract void processStep();
 	
 	// What happens when the unit dies
     public abstract void onDeath();
@@ -70,7 +70,7 @@ public abstract class Unit extends Tile {
         SwapPositions(e);
     }
 
-    public  void SwapPositions(Tile tile){
+    public void SwapPositions(Tile tile){
         Position p =tile.getPosition();
         tile.setPosition(this.getPosition());
         this.setPosition(p);
@@ -88,10 +88,10 @@ public abstract class Unit extends Tile {
 
 	// Combat against another unit.
     protected void battle(Unit u){
-        messageCallback.send(String.format("%s engaged in combat with %s.\n%s\n%s",name,u.name,describe(),u.describe()));
-        int damageDone = Math.max(attack() - u.defend(),0);
-        u.health.ReduceAmount(damageDone);
-        messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.name));
+            messageCallback.send(String.format("%s engaged in combat with %s.\n%s\n%s",name,u.name,describe(),u.describe()));
+            int damageDone = Math.max(attack() - u.defend(),0);
+            u.health.ReduceAmount(damageDone);
+            messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.name));
     }
 
 
