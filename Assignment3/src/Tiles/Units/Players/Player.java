@@ -1,5 +1,7 @@
 package Tiles.Units.Players;
 
+import CallBacks.EnemyDeathCallback;
+import CallBacks.PlayerDeathCallback;
 import MainProject.Action;
 import MainProject.InputProvider;
 import MainProject.InputQuery;
@@ -11,6 +13,7 @@ public class Player extends Unit{
     Resource resource;
     Integer experience;
     Integer level;
+    protected PlayerDeathCallback edCallback;
     private InputProvider inputProvider;
 
 
@@ -22,6 +25,11 @@ public class Player extends Unit{
         this.level = level;
         inputProvider = new InputProvider();
     }
+    public void SetDeathCallback(PlayerDeathCallback edCallback){
+        edCallback.call();
+    }
+
+
     public void Levelup(){
         return;
     }
@@ -49,13 +57,15 @@ public class Player extends Unit{
 
     @Override
     public void onDeath() {
-
+        SetDeathCallback(edCallback);
     }
 
     @Override
     public void visit(Player p) {
         //empty implementation
     }
+
+
 
     @Override
     public void visit(Enemy e) {

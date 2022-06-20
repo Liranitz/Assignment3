@@ -35,9 +35,6 @@ public abstract class Unit extends Tile {
 		int result =  r.nextInt(attackPoints);
         messageCallback.send(String.format("%s rolled %d attack points.",name,result));
         return result;
-        
-
-
     }
 
     public int defend(){
@@ -47,15 +44,12 @@ public abstract class Unit extends Tile {
         return result;
     }
 
-    public void AddAmount(int amount){
-        health.amount = health.amount+amount;
-    }
+    public void AddAmount(int amount){health.amount = health.amount+amount;}
     public void ReduceAmount(int amount){
         health.amount = health.amount-amount;
     }
 
 
-	// Should be automatically called once the unit finishes its turn
     //public abstract void processStep();
 	
 	// What happens when the unit dies
@@ -79,8 +73,7 @@ public abstract class Unit extends Tile {
         return health.amount>0;
     }
 
-    public void visit(Wall e){
-    }
+    public void visit(Wall e){}
 
     public abstract void visit(Player p);
     public abstract void visit(Enemy e);

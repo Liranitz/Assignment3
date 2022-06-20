@@ -2,7 +2,6 @@ package Tiles.Units.Enemy;
 
 import CallBacks.EnemyDeathCallback;
 import MainProject.Action;
-import MainProject.Direction;
 import Tiles.Units.Players.Player;
 import Tiles.Units.Unit;
 
@@ -21,9 +20,8 @@ public abstract class Enemy extends Unit  {
 
     @Override
     public void accept(Unit unit) {
-
+        unit.visit(this);
     }
-    public abstract void processStep(Player player) ;
 
     public abstract Action EnemyTurn(Player player) ;
 

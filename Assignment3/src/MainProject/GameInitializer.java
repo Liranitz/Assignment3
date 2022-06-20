@@ -11,16 +11,13 @@ import Tiles.Units.Players.*;
 import Tiles.Wall;
 import jdk.jshell.spi.ExecutionControl;
 
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
 
 public class GameInitializer {
 
     private List<Supplier<Player>> playerPool;
-    private Map<Character, Supplier<Enemy>> enemiesMap;
+    private List<Supplier<Enemy>> enemiesMap;
     private Player selected;
 
     public GameInitializer(char[][]board) {
@@ -39,8 +36,8 @@ public class GameInitializer {
         );
     }
 
-    private Map<Character, Supplier<Enemy>> initEnemies() {
-        List<Supplier<Enemy>> enemies = Arrays.asList(
+    private List<Supplier<Enemy>> initEnemies() {
+        return Arrays.asList(
                 () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25, 3),
                 () -> new Monster('k', "Lannister Knight", 200, 14, 8, 50, 4),
                 () -> new Monster('q', "Queen's Guard", 400, 20, 15, 100, 5),
@@ -60,7 +57,8 @@ public class GameInitializer {
         LinkedList<Tile> tileList = new LinkedList<>();
         LinkedList<Enemy> enemies = new LinkedList<>();
         Player player = null;
-        GameManager m = null;
+        GameManager m = new GameManager();
+        GameBoard board = new GameBoard();
 
         for (int i = 0; i <charArr.length ; i++) { // init tileList
             for (int j = 0; j <charArr[i].length ; j++) {
@@ -69,6 +67,7 @@ public class GameInitializer {
                     tileList.add(produceWall(p));
                 if(charArr[i][j]=='@') {// player case
                     player = producePlayer(playerInput,p);
+                    player.SetDeathCallback(()->m.EndGame());
                     tileList.add(player);
                 }
                 if(charArr[i][j]=='.')// empty case
@@ -81,17 +80,21 @@ public class GameInitializer {
                 }
             }
         }
-        GameBoard board = new GameBoard(tileList);
-        m = new GameManager(enemies,player,board);
-
+        m.Initializer(enemies,player,board);
+        board.Initialize(tileList);
+        m.runGame();
     }
 
         public Enemy produceEnemy(char tile, Position position) {
-            return null;
+            Random rand = new Random();
+            int num = rand.nextInt(13);
+            //set monster position
+             return enemiesMap.get(num).get();
         }
 
         public Player producePlayer(int idx , Position p) {
-            return null;
+            return playerPool.get(idx).get();
+            //set player postion
         }
 
         public Empty produceEmpty(Position position) {

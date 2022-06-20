@@ -15,12 +15,16 @@ public class GameManager {
     private GameBoard board;
     //private InputProvider input;
 
-
-    public GameManager(LinkedList<Enemy> enemies, Player player, GameBoard board){
+    public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
         this.board = board;
         this.enemies=enemies;
         this.player=player;
         isActive=true;
+    }
+
+
+    public GameManager(){
+
         //input = new InputProvider();
     }
     public void runGame(){

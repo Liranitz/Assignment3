@@ -14,9 +14,14 @@ import java.util.stream.Collectors;
 public class GameBoard {
     private List<Tile> tiles;
 
-    public GameBoard(List<Tile> tiles){
+    public GameBoard(){
+
+    }
+
+    public void Initialize(List<Tile> tiles){
         this.tiles = tiles;
     }
+
 
     public Tile get(int x, int y) {
         for(Tile t : tiles){
@@ -28,13 +33,13 @@ public class GameBoard {
         // Throw an exception if no such tile.
     }
 
-    public void remove(Enemy e) {
-        Position pos = e.getPosition();
-        tiles.remove(e);
+    public void remove(Tile t) {
+        Position pos = t.getPosition();
+        tiles.remove(t);
 
     }
 
-    public void add(Tile u) {
+    public void add(Tile t) {
        //Tile t =  get(u.getPosition().,u.y)
 
     }

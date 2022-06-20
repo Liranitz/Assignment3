@@ -5,5 +5,5 @@ import Tiles.Units.Players.Player;
 import Tiles.Units.Unit;
 
 interface HeroicUnit{
-    public void CastAbility();
+    public void AbilityCast(Player player);
 }
