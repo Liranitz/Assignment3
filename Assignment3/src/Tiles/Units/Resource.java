@@ -9,14 +9,13 @@ public class Resource {
         this.pool=pool ;
         amount = pool;
     }
-
-    public Integer UpdatePool(){
-        return 0;
+    public Integer AddPool(Integer pool){
+        return this.pool + pool;
+    }
+    public Integer UpdateAmount(Integer amount){
+        return this.amount = amount;
     }
 
-    public Integer UpdateExperience(){
-        return 0;
-    }
     public Integer UpdateMana(){
         return 0;
     }
@@ -26,7 +25,6 @@ public class Resource {
         if(amount<0)
             amount=0;
     }
-
     public Integer getAmount() {
         return amount;
     }
