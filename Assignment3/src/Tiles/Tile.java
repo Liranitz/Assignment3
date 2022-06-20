@@ -4,6 +4,8 @@ import Tiles.Units.Unit;
 
 import Tiles.Units.Player;
 
+import java.util.Random;
+
 public abstract class Tile implements Comparable<Tile> {
     protected char tile;
     protected Position position;
@@ -40,11 +42,7 @@ public abstract class Tile implements Comparable<Tile> {
     public String toString() {
         return String.valueOf(tile);
     }
-    public int defend(){
-        int result = r.nextInt(defense);
-        messageCallback.send(String.format("%s rolled %d defence points." , getName(),result));
-        return result;
-    }
+
     public abstract void onDeath();
     public void visit(Empty e){
         swapPosition(e);
