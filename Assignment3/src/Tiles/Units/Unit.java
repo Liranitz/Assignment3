@@ -65,7 +65,7 @@ public abstract class Unit extends Tile {
     }
 
     public void SwapPositions(Tile tile){
-        Position p =tile.getPosition();
+        Position p = tile.getPosition();
         tile.setPosition(this.getPosition());
         this.setPosition(p);
     }

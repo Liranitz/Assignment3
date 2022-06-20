@@ -16,8 +16,6 @@ public class Player extends Unit{
     protected PlayerDeathCallback edCallback;
     private InputProvider inputProvider;
 
-
-
     public Player (Resource resource , Integer experience, Integer level) {
         super('@',);
         this.experience = experience;
@@ -25,6 +23,7 @@ public class Player extends Unit{
         this.level = level;
         inputProvider = new InputProvider();
     }
+
     public void SetDeathCallback(PlayerDeathCallback edCallback){
         edCallback.call();
     }
@@ -39,7 +38,6 @@ public class Player extends Unit{
     public void AbilityCast(){
         return;
     }
-
 
     public Action GetInput() {
         return inputProvider.getInput();

@@ -1,5 +1,7 @@
 package Tiles.Units.Players;
 
+import Tiles.Units.Resource;
+
 public class Hunter extends Player {
     private Integer range;
     private Integer arrowsCount;
