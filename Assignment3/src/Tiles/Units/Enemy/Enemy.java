@@ -14,8 +14,8 @@ public abstract class Enemy extends Unit  {
         this.experienceValue =experienceValue;
     }
 
-    public void SetDeathCallback(EnemyDeathCallback edCallback){
-       edCallback.call();
+    public void SetDeathCallback(EnemyDeathCallback ed ){
+       this.edCallback=ed;
     }
 
     @Override

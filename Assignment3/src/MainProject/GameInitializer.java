@@ -18,9 +18,10 @@ public class GameInitializer {
 
     private List<Supplier<Player>> playerPool;
     private List<Supplier<Enemy>> enemiesMap;
-    private Player selected;
+    private char playerSelection;
 
-    public GameInitializer(char[][]board) {
+    public GameInitializer(char[][]board, char playerSelection) {
+        this.playerSelection=playerSelection;
         playerPool = initPlayers();
         enemiesMap = initEnemies();
     }
@@ -57,7 +58,7 @@ public class GameInitializer {
         LinkedList<Tile> tileList = new LinkedList<>();
         LinkedList<Enemy> enemies = new LinkedList<>();
         Player player = null;
-        GameManager m = new GameManager();
+        GameManager gameManager = new GameManager();
         GameBoard board = new GameBoard();
 
         for (int i = 0; i <charArr.length ; i++) { // init tileList
@@ -67,22 +68,24 @@ public class GameInitializer {
                     tileList.add(produceWall(p));
                 if(charArr[i][j]=='@') {// player case
                     player = producePlayer(playerInput,p);
-                    player.SetDeathCallback(()->m.EndGame());
+                    player.SetPlayerDeathCallback(()->gameManager.EndGame());
+                    player.SetMessageCallback((s) -> System.out.println(s));
                     tileList.add(player);
                 }
                 if(charArr[i][j]=='.')// empty case
                     tileList.add(produceEmpty(p));
                 else {// enemy case
                     Enemy enemy = produceEnemy(charArr[i][j], p);
-                    enemy.SetDeathCallback(()-> m.RemoveEnemy(enemy));
+                    enemy.SetDeathCallback(() -> gameManager.RemoveEnemy(enemy));
+                    enemy.SetMessageCallback((s)-> System.out.println(s));
                     enemies.add(enemy);
                     tileList.add(enemy);
                 }
             }
         }
-        m.Initializer(enemies,player,board);
+        gameManager.Initializer(enemies,player,board);
         board.Initialize(tileList);
-        m.runGame();
+        gameManager.runGame();
     }
 
         public Enemy produceEnemy(char tile, Position position) {
@@ -93,7 +96,8 @@ public class GameInitializer {
         }
 
         public Player producePlayer(int idx , Position p) {
-            return playerPool.get(idx).get();
+            Player player =  playerPool.get(idx).get();
+            player.in;
             //set player postion
         }
 
