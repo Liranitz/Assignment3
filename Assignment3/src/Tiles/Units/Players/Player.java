@@ -1,5 +1,6 @@
 package Tiles.Units.Players;
 
+import CallBacks.PlayerDeathCallback;
 import MainProject.InputProvider;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Unit;
@@ -10,6 +11,7 @@ public abstract class Player extends Unit{
     Integer experience;
     Integer level;
     private InputProvider inputProvider;
+    protected PlayerDeathCallback edCallback;
 
     public Player (Integer pool,  String name , Integer attack, Integer defence) {
         super('@',name , pool , attack, defence);
