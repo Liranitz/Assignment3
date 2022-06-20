@@ -1,45 +1,36 @@
 package Tiles.Units.Players;
 
-import CallBacks.EnemyDeathCallback;
-import CallBacks.PlayerDeathCallback;
-import MainProject.Action;
 import MainProject.InputProvider;
-import MainProject.InputQuery;
 import Tiles.Units.Enemy.Enemy;
-import Tiles.Units.Resource;
 import Tiles.Units.Unit;
 
-public class Player extends Unit{
-    Resource resource;
+import java.util.List;
+
+public abstract class Player extends Unit{
     Integer experience;
     Integer level;
-    protected PlayerDeathCallback edCallback;
     private InputProvider inputProvider;
 
-    public Player (Resource resource , Integer experience, Integer level) {
-        super('@',);
-        this.experience = experience;
-        this.resource = resource;
+    public Player (Integer pool,  String name , Integer attack, Integer defence) {
+        super('@',name , pool , attack, defence);
+        this.experience = 0;
         this.level = level;
         inputProvider = new InputProvider();
     }
-
-    public void SetDeathCallback(PlayerDeathCallback edCallback){
-        edCallback.call();
-    }
-
-
     public void Levelup(){
-        return;
+        health.AddPool(10 * level);
+        level++;
+        experience = experience - (50 * level);
+        health.AddPool(health.getPool() + (10 * level));
+        health.UpdateAmount(health.getPool());
+        attackPoints = attackPoints + (4 * level);
+        defensePoints = defensePoints + (1 * level);
     }
-    public void GameTick(){
-        return;
-    }
-    public void AbilityCast(){
-        return;
-    }
+    public abstract void GameTick();
+    public abstract void AbilityCast(List<Enemy> enemyList);
 
-    public Action GetInput() {
+
+    public char GetInput() {
         return inputProvider.getInput();
     }
 
@@ -55,15 +46,13 @@ public class Player extends Unit{
 
     @Override
     public void onDeath() {
-        SetDeathCallback(edCallback);
+        messageCallback.send("Game have neem finished.");
     }
 
     @Override
     public void visit(Player p) {
-        //empty implementation
+        return;
     }
-
-
 
     @Override
     public void visit(Enemy e) {

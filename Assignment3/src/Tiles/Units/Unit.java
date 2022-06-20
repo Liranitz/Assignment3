@@ -86,9 +86,13 @@ public abstract class Unit extends Tile {
             u.health.ReduceAmount(damageDone);
             messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.name));
     }
-
-
     public String describe() {
         return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.getAmount(), attackPoints, defensePoints);
+    }
+    public int defend(){
+        Random r = new Random();
+        int result = r.nextInt(defensePoints);
+        messageCallback.send(String.format("%s rolled %d defence points." , getName(),result));
+        return result;
     }
 }

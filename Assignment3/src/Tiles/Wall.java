@@ -8,9 +8,9 @@ public class Wall extends Tile {
         super('#');
         initialize(p);
     }
-
     @Override
     public void accept(Unit unit) {
+        return;
         // do nothing becuase its a wall
     }
 }
