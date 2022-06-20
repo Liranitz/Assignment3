@@ -36,8 +36,7 @@ public class GameBoard {
     public void remove(Tile t) {
         Position pos = t.getPosition();
         tiles.remove(t);
-
-    }
+-    }
 
     public void add(Tile t) {
        //Tile t =  get(u.getPosition().,u.y)
@@ -47,6 +46,15 @@ public class GameBoard {
     @Override
     public String toString() {
         tiles = tiles.stream().sorted().collect(Collectors.toList());
+        String res="";
+        int rowCounter=0;
+        for(Tile tile : tiles){
+            if(tile.getPosition().getXCoordinate() > rowCounter) {
+                res += "\n";
+                rowCounter++;
+            }
+            res+=tile.getTile();
+        }
         // TODO: Implement me
         // sort all the tiles in the list, print char's tile
         return null;

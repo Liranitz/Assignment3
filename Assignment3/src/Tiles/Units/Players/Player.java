@@ -24,8 +24,8 @@ public class Player extends Unit{
         inputProvider = new InputProvider();
     }
 
-    public void SetDeathCallback(PlayerDeathCallback edCallback){
-        edCallback.call();
+    public void SetPlayerDeathCallback(PlayerDeathCallback edCallback){
+        this.edCallback = edCallback;
     }
 
 
@@ -62,8 +62,6 @@ public class Player extends Unit{
     public void visit(Player p) {
         //empty implementation
     }
-
-
 
     @Override
     public void visit(Enemy e) {

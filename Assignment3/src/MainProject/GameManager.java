@@ -30,6 +30,7 @@ public class GameManager {
     public void runGame(){
 
         while(isActive){
+            board.toString();
             playerTurn(player.GetInput());
             //layer.in getInput()
             for(Enemy e : enemies){
