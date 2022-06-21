@@ -1,5 +1,8 @@
 package MainProject;
 
+import CallBacks.EnemyDeathCallback;
+import CallBacks.MessageCallback;
+import CallBacks.PlayerDeathCallback;
 import Tiles.Empty;
 import Tiles.Position;
 import Tiles.Tile;
@@ -12,18 +15,26 @@ import Tiles.Wall;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class GameInitializer {
 
     private List<Supplier<Player>> playerPool;
-    private List<Supplier<Enemy>> enemiesMap;
-    private char playerSelection;
+    private Map<Character, Supplier<Enemy>> enemiesMap;
+    private int playerSelection;
+    private GameManager gameManager;
+    private char[][] boardChar;
 
-    public GameInitializer(char[][]board, char playerSelection) {
-        this.playerSelection=playerSelection;
+
+
+    public GameInitializer(char[][]boardChar) {
+        //this.playerSelection=playerSelection;
         playerPool = initPlayers();
         enemiesMap = initEnemies();
+        this.boardChar=boardChar;
+        this.gameManager =  new GameManager();
     }
     private List<Supplier<Player>> initPlayers() {
         return Arrays.asList(
@@ -37,8 +48,8 @@ public class GameInitializer {
         );
     }
 
-    private List<Supplier<Enemy>> initEnemies() {
-        return Arrays.asList(
+    private Map<Character, Supplier<Enemy>> initEnemies() {
+        List<Supplier<Enemy>> enemies = Arrays.asList(
                 () -> new Monster('s', "Lannister Solider", 80, 8, 3, 25, 3),
                 () -> new Monster('k', "Lannister Knight", 200, 14, 8, 50, 4),
                 () -> new Monster('q', "Queen's Guard", 400, 20, 15, 100, 5),
@@ -53,52 +64,54 @@ public class GameInitializer {
                 () -> new Trap('Q', "Queen's Tiles.Units.Enemy.Trap", 250, 50, 10, 100, 3, 10),
                 () -> new Trap('D', "Death Tiles.Units.Enemy.Trap", 500, 100, 20, 250, 1, 10)
         );
+
+        return enemies.stream().collect(Collectors.toMap(s -> s.get().getTile(), Function.identity()));
     }
-    public void Initialize(char[][] charArr, int playerInput){
+    public void Initialize(){
         LinkedList<Tile> tileList = new LinkedList<>();
         LinkedList<Enemy> enemies = new LinkedList<>();
         Player player = null;
-        GameManager gameManager = new GameManager();
         GameBoard board = new GameBoard();
 
-        for (int i = 0; i <charArr.length ; i++) { // init tileList
-            for (int j = 0; j <charArr[i].length ; j++) {
+        MessageCallback m = (s) -> System.out.println(s);
+        PlayerDeathCallback d = () -> gameManager.EndGame();
+
+        for (int i = 0; i <boardChar.length ; i++) { // init tileList
+            for (int j = 0; j <boardChar[i].length ; j++) {
                 Position p = new Position(i,j);
-                if(charArr[i][j]=='#') // wall case
+                if(boardChar[i][j]=='#') // wall case
                     tileList.add(produceWall(p));
-                if(charArr[i][j]=='@') {// player case
-                    player = producePlayer(playerInput,p);
-                    player.SetPlayerDeathCallback(()->gameManager.EndGame());
-                    player.SetMessageCallback((s) -> System.out.println(s));
+                if(boardChar[i][j]=='@') {// player case
+                    player = producePlayer(playerSelection,p,m, d);
                     tileList.add(player);
                 }
-                if(charArr[i][j]=='.')// empty case
+                if(boardChar[i][j]=='.')// empty case
                     tileList.add(produceEmpty(p));
                 else {// enemy case
-                    Enemy enemy = produceEnemy(charArr[i][j], p);
-                    enemy.SetDeathCallback(() -> gameManager.RemoveEnemy(enemy));
-                    enemy.SetMessageCallback((s)-> System.out.println(s));
+                    Enemy enemy = produceEnemy(boardChar[i][j], p,m);
                     enemies.add(enemy);
                     tileList.add(enemy);
                 }
             }
         }
         gameManager.Initializer(enemies,player,board);
-        board.Initialize(tileList);
+        board.Initialize(tileList,m);
         gameManager.runGame();
     }
 
-        public Enemy produceEnemy(char tile, Position position) {
-            Random rand = new Random();
-            int num = rand.nextInt(13);
-            //set monster position
-             return enemiesMap.get(num).get();
-        }
+        public Enemy produceEnemy(char tile, Position position , MessageCallback messageCallback) {
+            Enemy enemy = enemiesMap.get(tile).get();
+            EnemyDeathCallback e = () -> gameManager.RemoveEnemy(enemy);
+            enemy.initialize(position,messageCallback);
+            return  enemy;
+            }
 
-        public Player producePlayer(int idx , Position p) {
+
+        public Player producePlayer(int idx , Position p, MessageCallback m, PlayerDeathCallback d) {
             Player player =  playerPool.get(idx).get();
-            player.in;
-            //set player postion
+            player.initialize(p, m, d);
+//            player.setPosition(p);
+            return player;
         }
 
         public Empty produceEmpty(Position position) {
@@ -109,5 +122,14 @@ public class GameInitializer {
             return new Wall(position);
         }
 
+        public void PresentPlayers() {
+            String res ="Choose a Player"+"\n";
+            for (Supplier<Player> s : playerPool) {
+                   res+=s.get().toString()+"\n";
+            }
+            System.out.println(res);
+            Scanner scan = new Scanner(System.in);
+            this.playerSelection = scan.nextInt();
+        }
 
 }

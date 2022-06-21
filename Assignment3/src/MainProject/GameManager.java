@@ -1,5 +1,4 @@
 package MainProject;
-
 import Tiles.Empty;
 import Tiles.Position;
 import Tiles.Tile;
@@ -13,6 +12,7 @@ public class GameManager {
     private Player player;
     private  boolean isActive;
     private GameBoard board;
+
     //private InputProvider input;
 
     public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
@@ -22,13 +22,12 @@ public class GameManager {
         isActive=true;
     }
 
-
     public GameManager(){
+
 
         //input = new InputProvider();
     }
     public void runGame(){
-
         while(isActive){
             board.toString();
             playerTurn(player.GetInput());
@@ -54,7 +53,7 @@ public class GameManager {
                 tile = board.get(player.getPosition().getXCoordinate(),player.getPosition().getYCoordinate()-1);
                 tile.accept(player);
             case SPECIALABILITY:
-              player.AbilityCast();
+              player.AbilityCast(enemies);
             case NOTHING:
         }
     }

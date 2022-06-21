@@ -36,6 +36,7 @@ public class Mage extends Player {
             currentMana = curMana1;
         }
     }
+
     public void AbilityCast(){
         currentMana = currentMana - manaCost;
         int hits = 0;

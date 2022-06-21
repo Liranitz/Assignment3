@@ -1,5 +1,8 @@
 package Tiles.Units.Players;
 
+import Tiles.Units.Enemy.Enemy;
+
+import java.util.List;
 import java.util.Random;
 
 public class Warrior extends Player {
@@ -14,6 +17,12 @@ public class Warrior extends Player {
     public void GameTick(){
         remainingCooldown = remainingCooldown - 1;
     }
+
+    @Override
+    public void AbilityCast(List<Enemy> enemyList) {
+
+    }
+
     public void LevelUp(){
         super.Levelup();
         remainingCooldown = 0;
