@@ -9,7 +9,6 @@ import java.util.Random;
 public abstract class Tile implements Comparable<Tile> {
     protected char tile;
     protected Position position;
-    private MessageCallback messageCallback;
 
     protected Tile(char tile){
         this.tile = tile;
@@ -35,7 +34,7 @@ public abstract class Tile implements Comparable<Tile> {
 
     @Override
     public int compareTo(Tile tile) {
-        return getPosition().compareTo(tile.getPosition());
+        return this.position.compareTo(tile.getPosition());
     }
 
     @Override

@@ -68,25 +68,23 @@ public class GameInitializer {
     public void Initialize(Player player){
         LinkedList<Tile> tileList = new LinkedList<>();
         LinkedList<Enemy> enemies = new LinkedList<>();
-        GameBoard board = new GameBoard();
-        GameManager gameManager =new GameManager();
+        GameManager gameManager = new GameManager();
 
-
-        for (int i = 0; i <boardChar.length ; i++) { // init tileList
-            for (int j = 0; j <boardChar[i].length ; j++) {
-                Position p = new Position(i,j);
+        for (int i = 0; i <boardChar.length ; i++) { // init tileList 19X49
+            for (int j = 0; j <boardChar[0].length ; j++) {
+                Position pos = new Position(i,j);
                 if(boardChar[i][j]=='#') // wall case
-                    tileList.add(produceWall(p));
-                if(boardChar[i][j]=='@') {// player case
-                    player.initialize(p);
+                    tileList.add(produceWall(pos));
+               else if(boardChar[i][j]=='@') {// player case
+                    player.initialize(pos);
                     player.SetPlayerDeathCallback(()-> gameManager.EndGame());
                     player.SetMessageCallback(s-> System.out.println(s));
                     tileList.add(player);
                 }
-                if(boardChar[i][j]=='.')// empty case
-                    tileList.add(produceEmpty(p));
+                else if(boardChar[i][j]=='.')// empty case
+                    tileList.add(produceEmpty(pos));
                 else {// enemy case
-                    Enemy enemy = produceEnemy(boardChar[i][j], p);
+                    Enemy enemy = produceEnemy(boardChar[i][j], pos);
                     enemy.SetEnemyDeathCallback(()->gameManager.RemoveEnemy(enemy));
                     enemy.SetMessageCallback(s-> System.out.println(s));
                     enemies.add(enemy);
@@ -94,12 +92,12 @@ public class GameInitializer {
                 }
             }
         }
-        gameManager.Initializer(enemies,player,board);
-        board.Initialize(tileList);
+        GameBoard gameboard = new GameBoard(tileList);
+        gameManager.Initializer(enemies,player,gameboard);
         gameManager.runGame();
     }
 
-        public Enemy produceEnemy(char tile, Position position ) {
+        public Enemy produceEnemy(char tile, Position position) {
             Enemy enemy = enemiesMap.get(tile).get();
             enemy.initialize(position);
             return  enemy;
@@ -111,17 +109,19 @@ public class GameInitializer {
         }
 
         public Empty produceEmpty(Position position) {
-            return new Empty(position);
+            Empty empty = new Empty(position);
+            return empty;
         }
 
         public Wall produceWall(Position position) {
-            return new Wall(position);
+            Wall wall = new Wall(position);
+            return wall;
         }
 
         public Player ChoosePlayer() {
             String res ="Choose a Player"+"\n";
             for (Supplier<Player> s : playerPool) {
-                   res+=s.get().toString()+"\n";
+                   res+=s.get().describe()+"\n";
             }
             System.out.println(res);
             Scanner scan = new Scanner(System.in);

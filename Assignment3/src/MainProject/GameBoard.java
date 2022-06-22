@@ -7,6 +7,8 @@ import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Players.Player;
 import Tiles.Units.Unit;
 import Tiles.Position;
+import org.w3c.dom.ls.LSOutput;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -15,13 +17,11 @@ import java.util.stream.Collectors;
 
 public class GameBoard {
     private List<Tile> tiles;
-    private MessageCallback messageCallback;
-    public GameBoard(){
 
-    }
-    public void Initialize(List<Tile> tiles){
+    public GameBoard(List<Tile> tiles){
         this.tiles = tiles;
     }
+
 
     public Tile get(int x, int y) {
         Tile tile = null;
@@ -34,12 +34,11 @@ public class GameBoard {
     }
 
     public void remove(Tile t) {
-        Position pos = t.getPosition();
         tiles.remove(t);
     }
 
     public void add(Tile t) {
-       //Tile t =  get(u.getPosition().,u.y)
+        tiles.add(t);
 
     }
 
@@ -49,7 +48,7 @@ public class GameBoard {
         String res="";
         int rowCounter=0;
         for(Tile tile : tiles){
-            if(tile.getPosition().getYCoordinate() > rowCounter) {
+            if(tile.getPosition().getXCoordinate() > rowCounter) {
                 res += "\n";
                 rowCounter++;
             }
@@ -57,7 +56,7 @@ public class GameBoard {
         }
         // TODO: Implement me
         // sort all the tiles in the list, print char's tile
-        return null;
+        return res;
     }
 
 }

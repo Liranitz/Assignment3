@@ -20,8 +20,9 @@ public class View {
 
 
         for(Path p : Files.list(Paths.get(path)).sorted().collect(Collectors.toList())){
-            List<String> list = readAllLines(path);
+            List<String> list = readAllLines(p.toString());
             char[][] board = listToChar(list);
+            System.out.println(board.toString());
             GameInitializer init = new GameInitializer(board);
             if(player == null) {
                 player = init.ChoosePlayer();
@@ -42,7 +43,8 @@ public class View {
 
     public static char[][] listToChar(List<String> lines) {
         int rowCounter = 0;
-        char[][] charArr = new char[lines.size()][];
+        char[][] charArr = new char[lines.size()][lines.get(0).length()];
+        System.out.println(lines.size()+"X"+lines.get(0).length());
         for(String s : lines){
             for (int i = 0; i <s.length() ; i++) {
                 charArr[rowCounter][i] = s.charAt(i);

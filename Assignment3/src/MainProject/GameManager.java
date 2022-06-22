@@ -15,6 +15,9 @@ public class GameManager {
     private GameBoard board;
     private EndGameCallback endGameCallback;
 
+    public GameManager(){
+
+    }
     public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
         this.board = board;
         this.enemies=enemies;
@@ -26,14 +29,10 @@ public class GameManager {
         this.endGameCallback = endGameCallback;
     }
 
-    public GameManager(){
-
-    }
     public void runGame(){
         while(isActive){
-            board.toString();
+            System.out.println(board.toString());
             PlayerTurn(player.GetInput());
-            //layer.in getInput()
             for(Enemy e : enemies){
                 EnemyTurn(e);
             }
@@ -83,7 +82,8 @@ public class GameManager {
 
     }
     public void EndGame(){
-
+        System.out.println("Game is Over");
+        System.exit(0);
     }
 
     public void RemoveEnemy(Enemy enemy) {
