@@ -5,6 +5,7 @@ import Tiles.Units.Enemy.Enemy;
 
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Hunter extends Player {
     private Integer range;
@@ -37,12 +38,14 @@ public class Hunter extends Player {
         e.accept(this);
     }
     public void AbilityCast(List<Enemy> enemyList){
+        arrowsCount = arrowsCount - 1;
         if(!enemyList.isEmpty()){
+            List<Enemy> enemies = enemyList.stream().sorted((x,y) -> (int) Math.min(this.position.Range(x.getPosition()),(this.position.Range(y.getPosition())))).collect(Collectors.toList());
             int numberOfEnemies = enemyList.size();
-            for (Enemy e : enemyList) {
-                Random r = new Random();
-                int result = r.nextInt(numberOfEnemies);
-            }
+            Enemy e = enemies.get(0);
+            e.ReduceAmount(this.attackPoints - e.defend());
+            if (!e.IsAlive())
+                this.AddExp(e.getExperienceValue());
         }
     }
 }

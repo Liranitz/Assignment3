@@ -32,7 +32,10 @@ public class Warrior extends Player {
             if(enemies.size() > 0) {
                 Random r = new Random();
                 int i = r.nextInt(enemies.size());
-                enemies.get(i).ReduceAmount(this.health.getPool());
+                Enemy e = enemies.get(i);
+                e.ReduceAmount((int) (this.health.getPool()*(0.1)));
+                if(!e.IsAlive())
+                    this.AddExp(e.getExperienceValue());
                 this.health.UpdateAmount(this.health.getAmount() + 10 * defensePoints);
             }
         }
@@ -45,6 +48,6 @@ public class Warrior extends Player {
         super.LevelUp();
         remainingCooldown = 0;
         super.health.AddPool(5*level);
-        super.attackPoints += 1*level;
+        super.attackPoints += level;
     }
 }

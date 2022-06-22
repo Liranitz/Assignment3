@@ -46,7 +46,8 @@ public abstract class Unit extends Tile {
 
     public void AddAmount(int amount){health.amount = health.amount+amount;}
     public void ReduceAmount(int amount){
-        health.amount = health.amount-amount;
+        if(amount > 0)
+            health.amount = health.amount-amount;
     }
 
     public void SetMessageCallback(MessageCallback messageCallback){
@@ -54,7 +55,8 @@ public abstract class Unit extends Tile {
     }
 
 	// What happens when the unit dies
-    public abstract void onDeath();
+    //public abstract void onDeath(Enemy enemy);
+    //public abstract void onDeath(Player player);
 
 	// This unit attempts to interact with another tile.
     public void interact(Tile tile){
@@ -86,9 +88,6 @@ public abstract class Unit extends Tile {
             int damageDone = Math.max(attack() - u.defend(),0);
             u.health.ReduceAmount(damageDone);
             messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.name));
-            if(!u.IsAlive()) {
-                u.onDeath();
-            }
     }
     public String describe() {
         return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.getAmount(), attackPoints, defensePoints);

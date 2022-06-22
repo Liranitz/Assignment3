@@ -15,10 +15,7 @@ public class GameManager {
     private GameBoard board;
     private EndGameCallback endGameCallback;
 
-    public GameManager(){
-
-    }
-    public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
+o    public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
         this.board = board;
         this.enemies=enemies;
         this.player=player;
@@ -29,12 +26,24 @@ public class GameManager {
         this.endGameCallback = endGameCallback;
     }
 
+    public GameManager(){
+
+    }
     public void runGame(){
         while(isActive){
             System.out.println(board.toString());
             PlayerTurn(player.GetInput());
-            for(Enemy e : enemies){
-                EnemyTurn(e);
+            //layer.in getInput()
+            if(enemies.size() == 0)
+                isActive = false;
+            else {
+                for (Enemy e : enemies) {
+                    if(!e.IsAlive())
+                        RemoveEnemy(e);
+                    else {
+                        EnemyTurn(e);
+                    }
+                }
             }
         }
     }
