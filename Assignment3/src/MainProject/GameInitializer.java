@@ -8,6 +8,7 @@ import Tiles.Units.Enemy.Monster;
 import Tiles.Units.Enemy.Trap;
 import Tiles.Units.HeroicUnit.Boss;
 import Tiles.Units.Players.*;
+import Tiles.Units.Unit;
 import Tiles.Wall;
 import jdk.jshell.spi.ExecutionControl;
 
@@ -97,6 +98,8 @@ public class GameInitializer {
 
         public Player producePlayer(int idx , Position p) {
             Player player =  playerPool.get(idx).get();
+            player.initialize(p);
+            return player;
             player.in;
             //set player postion
         }

@@ -1,6 +1,7 @@
 package Tiles.Units.Players;
 
 import CallBacks.PlayerDeathCallback;
+import MainProject.Action;
 import MainProject.InputProvider;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Unit;
@@ -16,6 +17,7 @@ public abstract class Player extends Unit{
     public Player (Integer pool,  String name , Integer attack, Integer defence) {
         super('@',name , pool , attack, defence);
         this.experience = 0;
+        this.level = 1;
         this.level = level;
         inputProvider = new InputProvider();
     }
@@ -32,7 +34,7 @@ public abstract class Player extends Unit{
     public abstract void AbilityCast(List<Enemy> enemyList);
 
 
-    public char GetInput() {
+    public Action GetInput() {
         return inputProvider.getInput();
     }
 

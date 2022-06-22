@@ -1,5 +1,9 @@
 package Tiles.Units.Players;
 
+import Tiles.Units.Enemy.Enemy;
+
+import java.util.List;
+
 public class Mage extends Player {
     private Integer manaPool;
     private Integer currentMana;
@@ -7,13 +11,14 @@ public class Mage extends Player {
     private Integer spellPower;
     private Integer hitsCount;
     private Integer abilityRange;
-    public Mage(String name , Integer HealthPool , Integer attack, Integer defence, Integer ManaPool ,Integer SpellPower , Integer HitCount , Integer AbilityRange) {
+    public Mage(String name , Integer HealthPool , Integer attack, Integer defence, Integer ManaPool ,Integer ManaCost,Integer SpellPower , Integer HitCount , Integer AbilityRange) {
         super(HealthPool, name,attack, defence);
         this.manaPool = ManaPool;
         this.currentMana = manaPool / 4;
         this.spellPower = SpellPower;
         this.hitsCount = HitCount;
         this.abilityRange = AbilityRange;
+        this.manaCost = ManaCost;
     }
 
     public void LevelUp(){
