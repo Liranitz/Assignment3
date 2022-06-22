@@ -19,20 +19,18 @@ public class GameBoard {
     public GameBoard(){
 
     }
-
-    public void Initialize(List<Tile> tiles, MessageCallback messageCallback){
+    public void Initialize(List<Tile> tiles){
         this.tiles = tiles;
     }
 
-
     public Tile get(int x, int y) {
+        Tile tile = null;
         for(Tile t : tiles){
             if (t.getPosition().getXCoordinate() == x && t.getPosition().getYCoordinate() == y ){
-                return t;
+                tile=t;
             }
         }
-        throw new RuntimeException("no such tile");
-        // Throw an exception if no such tile.
+        return  tile;
     }
 
     public void remove(Tile t) {

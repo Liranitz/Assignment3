@@ -1,5 +1,6 @@
 import MainProject.GameInitializer;
 import MainProject.GameManager;
+import Tiles.Units.Players.Player;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -15,16 +16,17 @@ public class View {
     public static void main(String[] args) throws IOException {
         String path = args[0];
         boolean isFirstLevel = true;
+        Player player = null;
+
 
         for(Path p : Files.list(Paths.get(path)).sorted().collect(Collectors.toList())){
             List<String> list = readAllLines(path);
             char[][] board = listToChar(list);
             GameInitializer init = new GameInitializer(board);
-            if(isFirstLevel) {
-                init.PresentPlayers();
-                isFirstLevel=false;
+            if(player == null) {
+                player = init.ChoosePlayer();
             }
-            init.Initialize();
+            init.Initialize(player);
         }
     }
     public static List<String> readAllLines(String path) {
@@ -49,6 +51,4 @@ public class View {
         }
         return charArr;
     }
-
-
 }

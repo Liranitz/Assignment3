@@ -1,6 +1,11 @@
+/*
+
 package Tiles;
 
 
+import CallBacks.EnemyDeathCallback;
+import CallBacks.MessageCallback;
+import CallBacks.PlayerDeathCallback;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Enemy.Monster;
 import Tiles.Units.Enemy.Trap;
@@ -67,20 +72,25 @@ public class TileFactory {
 
     // TODO: Add additional callbacks of your choice
 
-    public Enemy produceEnemy(char tile, Position position,String name,int healthPool,int attackPoints,int defensePoints,int experienceValue ) {
-        return enemiesMap.get(tile);
+    public Enemy produceEnemy(char tile, Position position) {
+        Enemy enemy = enemiesMap.get(tile).get();
+        EnemyDeathCallback e = () -> gameManager.RemoveEnemy(enemy);
+        enemy.initialize(position,messageCallback);
+        return  enemy;
     }
 
-    public Player producePlayer(int idx, ...) {
-		...
+    public Player producePlayer(int idx , Position p) {
+        Player player =  playersList.get(idx).get();
+        player.initialize(p);
+        return player;
     }
 
-    public Empty produceEmpty(Position position, ...) {
-        ...
+    public Empty produceEmpty(Position position) {
+        return new Empty(position);
     }
 
     public Wall produceWall(Position position) {
-        return new wall(position)
+        return new Wall(position);
     }
     public buildBoard(someinput){
         for(int i = 0 ; ..)
@@ -90,3 +100,4 @@ public class TileFactory {
                 board[i][j] = i;
     }
 }
+*/

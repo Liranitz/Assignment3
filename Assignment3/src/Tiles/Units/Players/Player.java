@@ -6,6 +6,7 @@ import CallBacks.PlayerDeathCallback;
 import MainProject.Action;
 import MainProject.InputProvider;
 import Tiles.Position;
+import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Unit;
 
@@ -24,10 +25,17 @@ public abstract class Player extends Unit{
         inputProvider = new InputProvider();
     }
 
-    public void initialize(Position position, MessageCallback messageCallback, PlayerDeathCallback deathCallback){
-        super.initialize(position, messageCallback);
-        this.pdCallback = deathCallback;
+    public abstract void GameTick(Tile t);
+
+    public void initialize(Position position){
+        super.initialize(position);
+
     }
+
+    public void SetPlayerDeathCallback(PlayerDeathCallback pdCallback){
+        this.pdCallback=pdCallback;
+    }
+
     public void LevelUp(){
         health.AddPool(10 * level);
         level++;
@@ -37,7 +45,7 @@ public abstract class Player extends Unit{
         attackPoints = attackPoints + (4 * level);
         defensePoints = defensePoints + (1 * level);
     }
-    public abstract void GameTick();
+
     public abstract void AbilityCast(List<Enemy> enemyList);
 
 
@@ -71,9 +79,9 @@ public abstract class Player extends Unit{
 
     @Override
     public void visit(Enemy e) {
-    battle(e);
-    if (e.IsAlive())
-        onKill(e);
+        battle(e);
+        if (e.IsAlive())
+            onKill(e);
     }
 
 }

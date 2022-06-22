@@ -1,4 +1,5 @@
 package MainProject;
+import CallBacks.EndGameCallback;
 import Tiles.Empty;
 import Tiles.Position;
 import Tiles.Tile;
@@ -12,8 +13,7 @@ public class GameManager {
     private Player player;
     private  boolean isActive;
     private GameBoard board;
-
-    //private InputProvider input;
+    private EndGameCallback endGameCallback;
 
     public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
         this.board = board;
@@ -22,43 +22,45 @@ public class GameManager {
         isActive=true;
     }
 
+    public void SetEndGameCallback(EndGameCallback endGameCallback){
+        this.endGameCallback = endGameCallback;
+    }
+
     public GameManager(){
 
-
-        //input = new InputProvider();
     }
     public void runGame(){
         while(isActive){
             board.toString();
-            playerTurn(player.GetInput());
+            PlayerTurn(player.GetInput());
             //layer.in getInput()
             for(Enemy e : enemies){
-                enemyTurn(e);
+                EnemyTurn(e);
             }
         }
     }
-    public void playerTurn(Action input){
+    public void PlayerTurn(Action input){
         Tile tile;
         switch(input) {
             case UP:
                 tile = board.get(player.getPosition().getXCoordinate(),player.getPosition().getYCoordinate()+1);
-                tile.accept(player);
+                player.GameTick(tile);
             case LEFT:
                 tile = board.get(player.getPosition().getXCoordinate()-1,player.getPosition().getYCoordinate());
-                tile.accept(player);
+                player.GameTick(tile);
             case RIGHT:
                 tile = board.get(player.getPosition().getXCoordinate()+1,player.getPosition().getYCoordinate());
-                tile.accept(player);
+                player.GameTick(tile);
             case DOWN:
                 tile = board.get(player.getPosition().getXCoordinate(),player.getPosition().getYCoordinate()-1);
-                tile.accept(player);
+                player.GameTick(tile);
             case SPECIALABILITY:
               player.AbilityCast(enemies);
             case NOTHING:
         }
     }
 
-    public void enemyTurn(Enemy enemy){
+    public void EnemyTurn(Enemy enemy){
         double distance = enemy.getPosition().Range(player.getPosition());
         Tile tile;
         switch (enemy.EnemyTurn(player)){

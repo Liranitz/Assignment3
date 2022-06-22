@@ -23,19 +23,17 @@ public class GameInitializer {
 
     private List<Supplier<Player>> playerPool;
     private Map<Character, Supplier<Enemy>> enemiesMap;
-    private int playerSelection;
-    private GameManager gameManager;
+    private Player player;
     private char[][] boardChar;
-
-
 
     public GameInitializer(char[][]boardChar) {
         //this.playerSelection=playerSelection;
         playerPool = initPlayers();
         enemiesMap = initEnemies();
+        this.player=null;
         this.boardChar=boardChar;
-        this.gameManager =  new GameManager();
     }
+
     private List<Supplier<Player>> initPlayers() {
         return Arrays.asList(
                 () -> new Warrior("Jon Snow", 300, 30, 4, 3),
@@ -67,14 +65,12 @@ public class GameInitializer {
 
         return enemies.stream().collect(Collectors.toMap(s -> s.get().getTile(), Function.identity()));
     }
-    public void Initialize(){
+    public void Initialize(Player player){
         LinkedList<Tile> tileList = new LinkedList<>();
         LinkedList<Enemy> enemies = new LinkedList<>();
-        Player player = null;
         GameBoard board = new GameBoard();
+        GameManager gameManager =new GameManager();
 
-        MessageCallback m = (s) -> System.out.println(s);
-        PlayerDeathCallback d = () -> gameManager.EndGame();
 
         for (int i = 0; i <boardChar.length ; i++) { // init tileList
             for (int j = 0; j <boardChar[i].length ; j++) {
@@ -82,35 +78,35 @@ public class GameInitializer {
                 if(boardChar[i][j]=='#') // wall case
                     tileList.add(produceWall(p));
                 if(boardChar[i][j]=='@') {// player case
-                    player = producePlayer(playerSelection,p,m, d);
+                    player.initialize(p);
+                    player.SetPlayerDeathCallback(()-> gameManager.EndGame());
+                    player.SetMessageCallback(s-> System.out.println(s));
                     tileList.add(player);
                 }
                 if(boardChar[i][j]=='.')// empty case
                     tileList.add(produceEmpty(p));
                 else {// enemy case
-                    Enemy enemy = produceEnemy(boardChar[i][j], p,m);
+                    Enemy enemy = produceEnemy(boardChar[i][j], p);
+                    enemy.SetEnemyDeathCallback(()->gameManager.RemoveEnemy(enemy));
+                    enemy.SetMessageCallback(s-> System.out.println(s));
                     enemies.add(enemy);
                     tileList.add(enemy);
                 }
             }
         }
         gameManager.Initializer(enemies,player,board);
-        board.Initialize(tileList,m);
+        board.Initialize(tileList);
         gameManager.runGame();
     }
 
-        public Enemy produceEnemy(char tile, Position position , MessageCallback messageCallback) {
+        public Enemy produceEnemy(char tile, Position position ) {
             Enemy enemy = enemiesMap.get(tile).get();
-            EnemyDeathCallback e = () -> gameManager.RemoveEnemy(enemy);
-            enemy.initialize(position,messageCallback);
+            enemy.initialize(position);
             return  enemy;
             }
 
-
-        public Player producePlayer(int idx , Position p, MessageCallback m, PlayerDeathCallback d) {
+        public Player producePlayer(int idx) {
             Player player =  playerPool.get(idx).get();
-            player.initialize(p, m, d);
-//            player.setPosition(p);
             return player;
         }
 
@@ -122,14 +118,15 @@ public class GameInitializer {
             return new Wall(position);
         }
 
-        public void PresentPlayers() {
+        public Player ChoosePlayer() {
             String res ="Choose a Player"+"\n";
             for (Supplier<Player> s : playerPool) {
                    res+=s.get().toString()+"\n";
             }
             System.out.println(res);
             Scanner scan = new Scanner(System.in);
-            this.playerSelection = scan.nextInt();
+            int idx = scan.nextInt();
+            this.player = producePlayer(idx);
+            return player;
         }
-
 }

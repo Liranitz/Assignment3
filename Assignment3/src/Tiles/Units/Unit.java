@@ -26,9 +26,8 @@ public abstract class Unit extends Tile {
         this.defensePoints = defense;
     }
 
-    public void initialize(Position position, MessageCallback messageCallback){
+    public void initialize(Position position){
         super.initialize(position);
-        this.messageCallback = messageCallback;
     }
 	
     protected int attack(){
@@ -50,9 +49,10 @@ public abstract class Unit extends Tile {
         health.amount = health.amount-amount;
     }
 
+    public void SetMessageCallback(MessageCallback messageCallback){
+        this.messageCallback = messageCallback;
+    }
 
-    //public abstract void processStep();
-	
 	// What happens when the unit dies
     public abstract void onDeath();
 
@@ -92,9 +92,5 @@ public abstract class Unit extends Tile {
     }
     public String describe() {
         return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.getAmount(), attackPoints, defensePoints);
-    }
-
-    public void SetMessageCallback(MessageCallback mcb){
-        this.messageCallback =mcb;
     }
 }

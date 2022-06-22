@@ -17,11 +17,11 @@ public abstract class Enemy extends Unit  {
     }
 
     @Override
-    public void initialize(Position position, MessageCallback messageCallback) {
-        super.initialize(position, messageCallback);
+    public void initialize(Position position) {
+        super.initialize(position);
     }
     public int getExperienceValue(){ return experienceValue;}
-    public void SetDeathCallback(EnemyDeathCallback ed ){
+    public void SetEnemyDeathCallback(EnemyDeathCallback ed ){
        this.edCallback=ed;
     }
 
@@ -38,7 +38,8 @@ public abstract class Enemy extends Unit  {
     }
 
     @Override
-    public void visit(Player p) {
+    public void visit(Player p)
+    {
         battle(p);
         if(!p.IsAlive())
             p.onDeath();
