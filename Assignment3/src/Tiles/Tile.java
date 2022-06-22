@@ -1,15 +1,15 @@
 package Tiles;
 
+import CallBacks.MessageCallback;
 import Tiles.Units.Unit;
 
-import Tiles.Units.Player;
 
 import java.util.Random;
 
 public abstract class Tile implements Comparable<Tile> {
     protected char tile;
     protected Position position;
-    private messageCallback messageCallback;
+    private MessageCallback messageCallback;
 
     protected Tile(char tile){
         this.tile = tile;
@@ -43,9 +43,15 @@ public abstract class Tile implements Comparable<Tile> {
         return String.valueOf(tile);
     }
 
-    public abstract void onDeath();
+
     public void visit(Empty e){
         swapPosition(e);
+    }
+
+    public void swapPosition(Tile t) {
+        Position p = t.getPosition();
+        this.setPosition(t.getPosition());
+        t.setPosition(p);
     }
 
     public void Visit(Wall w){

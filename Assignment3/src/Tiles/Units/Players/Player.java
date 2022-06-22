@@ -1,8 +1,12 @@
 package Tiles.Units.Players;
 
+import CallBacks.EnemyDeathCallback;
+import CallBacks.MessageCallback;
 import CallBacks.PlayerDeathCallback;
 import MainProject.Action;
 import MainProject.InputProvider;
+import Tiles.Position;
+import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Unit;
 
@@ -11,17 +15,28 @@ import java.util.List;
 public abstract class Player extends Unit{
     Integer experience;
     Integer level;
+    private PlayerDeathCallback pdCallback;
     private InputProvider inputProvider;
-    protected PlayerDeathCallback edCallback;
 
     public Player (Integer pool,  String name , Integer attack, Integer defence) {
         super('@',name , pool , attack, defence);
         this.experience = 0;
         this.level = 1;
-        this.level = level;
         inputProvider = new InputProvider();
     }
-    public void Levelup(){
+
+    public abstract void GameTick(Tile t);
+
+    public void initialize(Position position){
+        super.initialize(position);
+
+    }
+
+    public void SetPlayerDeathCallback(PlayerDeathCallback pdCallback){
+        this.pdCallback=pdCallback;
+    }
+
+    public void LevelUp(){
         health.AddPool(10 * level);
         level++;
         experience = experience - (50 * level);
@@ -30,7 +45,7 @@ public abstract class Player extends Unit{
         attackPoints = attackPoints + (4 * level);
         defensePoints = defensePoints + (1 * level);
     }
-    public abstract void GameTick();
+
     public abstract void AbilityCast(List<Enemy> enemyList);
 
 
@@ -44,13 +59,17 @@ public abstract class Player extends Unit{
     }
 
     @Override
-    public void processStep() {
-
+    public void onDeath() {
+        pdCallback.call();
     }
 
-    @Override
-    public void onDeath() {
-        messageCallback.send("Game have neem finished.");
+
+    public void onKill(Enemy enemy) {
+        this.experience += enemy.getExperienceValue();
+        this.swapPosition(enemy);
+        enemy.onDeath();
+        if(experience>=50*level)
+            LevelUp();
     }
 
     @Override
@@ -60,6 +79,9 @@ public abstract class Player extends Unit{
 
     @Override
     public void visit(Enemy e) {
-    battle(e);
+        battle(e);
+        if (e.IsAlive())
+            onKill(e);
     }
+
 }

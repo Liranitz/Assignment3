@@ -1,7 +1,6 @@
 package CallBacks;
 
-import Tiles.Units.Enemy.Enemy;
-
+import Tiles.*;
 public interface EnemyDeathCallback{
 	void call();
 }

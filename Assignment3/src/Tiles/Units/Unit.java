@@ -1,6 +1,7 @@
 package Tiles.Units;
 
 import CallBacks.MessageCallback;
+import CallBacks.PlayerDeathCallback;
 import Tiles.Empty;
 import Tiles.Position;
 import Tiles.Tile;
@@ -25,9 +26,8 @@ public abstract class Unit extends Tile {
         this.defensePoints = defense;
     }
 
-    protected void initialize(Position position, MessageCallback messageCallback){
+    public void initialize(Position position){
         super.initialize(position);
-        this.messageCallback = messageCallback;
     }
 	
     protected int attack(){
@@ -49,9 +49,10 @@ public abstract class Unit extends Tile {
         health.amount = health.amount-amount;
     }
 
+    public void SetMessageCallback(MessageCallback messageCallback){
+        this.messageCallback = messageCallback;
+    }
 
-    //public abstract void processStep();
-	
 	// What happens when the unit dies
     public abstract void onDeath();
 
@@ -85,12 +86,11 @@ public abstract class Unit extends Tile {
             int damageDone = Math.max(attack() - u.defend(),0);
             u.health.ReduceAmount(damageDone);
             messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.name));
+            if(!u.IsAlive()) {
+                u.onDeath();
+            }
     }
     public String describe() {
         return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.getAmount(), attackPoints, defensePoints);
-    }
-
-    public void SetMessageCallback(MessageCallback mcb){
-        this.messageCallback =mcb;
     }
 }

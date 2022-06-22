@@ -1,5 +1,6 @@
 package Tiles.Units.Players;
 
+import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public class Hunter extends Player {
     private Integer ticksCount;
     private Integer cost;
     private Integer currentEnergy;
+
     public Hunter(String name , Integer pool , Integer attack, Integer defence ,Integer range) {
         super(pool , name , attack , defence);
         this.range = range;
@@ -20,11 +22,11 @@ public class Hunter extends Player {
     }
 
     public void LevelUp(){
-        super.Levelup();
+        super.LevelUp();
         attackPoints = attackPoints + 2*level;
         defensePoints = defensePoints +level;
     }
-    public void GameTick(){
+    public void GameTick(Tile e){
         if(ticksCount == 10){
             arrowsCount = arrowsCount + level;
             ticksCount = 0;
@@ -32,6 +34,7 @@ public class Hunter extends Player {
         else{
             ticksCount++;
         }
+        e.accept(this);
     }
     public void AbilityCast(List<Enemy> enemyList){
         if(!enemyList.isEmpty()){
