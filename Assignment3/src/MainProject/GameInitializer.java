@@ -71,7 +71,6 @@ public class GameInitializer {
         GameBoard board = new GameBoard();
         GameManager gameManager =new GameManager();
 
-
         for (int i = 0; i <boardChar.length ; i++) { // init tileList
             for (int j = 0; j <boardChar[i].length ; j++) {
                 Position p = new Position(i,j);

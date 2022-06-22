@@ -43,7 +43,7 @@ public abstract class Player extends Unit{
         health.AddPool(health.getPool() + (10 * level));
         health.UpdateAmount(health.getPool());
         attackPoints = attackPoints + (4 * level);
-        defensePoints = defensePoints + (1 * level);
+        defensePoints = defensePoints + (level);
     }
 
     public abstract void AbilityCast(List<Enemy> enemyList);
@@ -58,29 +58,28 @@ public abstract class Player extends Unit{
         unit.visit(this);
     }
 
-    @Override
     public void onDeath() {
         pdCallback.call();
     }
 
+    public void AddExp(Integer exp){
+        this.experience += exp;
+    }
 
     public void onKill(Enemy enemy) {
         this.experience += enemy.getExperienceValue();
         this.swapPosition(enemy);
-        enemy.onDeath();
         if(experience>=50*level)
             LevelUp();
     }
 
     @Override
-    public void visit(Player p) {
-        return;
-    }
+    public void visit(Player p) {}
 
     @Override
     public void visit(Enemy e) {
         battle(e);
-        if (e.IsAlive())
+        if (!e.IsAlive())
             onKill(e);
     }
 

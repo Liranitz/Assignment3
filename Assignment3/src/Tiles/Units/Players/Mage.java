@@ -4,6 +4,8 @@ import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
 
 import java.util.List;
+import java.util.Random;
+import java.util.stream.Collectors;
 
 public class Mage extends Player {
     private Integer manaPool;
@@ -34,22 +36,36 @@ public class Mage extends Player {
         }
         spellPower = spellPower + 10*level;
     }
-    public void GameTick(Tile e){
+    public void GameTick(Tile e) {
         int curMana1 = currentMana + level;
-        if(curMana1 > manaPool){
+        if (curMana1 > manaPool) {
             currentMana = manaPool;
-        }
-        else{
+        } else {
             currentMana = curMana1;
         }
         e.accept(this);
     }
 
-    public void AbilityCast(List<Enemy> enemyList){
-        currentMana = currentMana - manaCost;
-        int hits = 0;
-        while(hits < hitsCount){
-            hits++;
+    public void AbilityCast(List<Enemy> enemyList) {
+        if(currentMana <= manaCost) {
+            currentMana = currentMana - manaCost;
+            int hits = 0;
+            while(hits < hitsCount){
+                List<Enemy> enemies = enemyList.stream().filter(x -> this.position.Range(x.getPosition()) < abilityRange ).collect(Collectors.toList());
+                if(enemies.size() > 0) {
+                    Random r = new Random();
+                    int i = r.nextInt(enemies.size());
+                    Enemy e = enemies.get(i);
+                    e.ReduceAmount(this.spellPower - enemies.get(i).defend());
+                    if(!e.IsAlive()){
+                        this.onKill(e);
+                    }
+                }
+                hits++;
+            }
+        }
+        else{
+            messageCallback.send("not enough mana");
         }
     }
 }

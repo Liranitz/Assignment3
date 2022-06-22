@@ -18,7 +18,6 @@ public class View {
         boolean isFirstLevel = true;
         Player player = null;
 
-
         for(Path p : Files.list(Paths.get(path)).sorted().collect(Collectors.toList())){
             List<String> list = readAllLines(path);
             char[][] board = listToChar(list);

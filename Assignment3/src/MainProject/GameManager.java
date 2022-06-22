@@ -31,11 +31,19 @@ public class GameManager {
     }
     public void runGame(){
         while(isActive){
-            board.toString();
+            System.out.println(board.toString());
             PlayerTurn(player.GetInput());
             //layer.in getInput()
-            for(Enemy e : enemies){
-                EnemyTurn(e);
+            if(enemies.size() == 0)
+                isActive = false;
+            else {
+                for (Enemy e : enemies) {
+                    if(!e.IsAlive())
+                        RemoveEnemy(e);
+                    else {
+                        EnemyTurn(e);
+                    }
+                }
             }
         }
     }
