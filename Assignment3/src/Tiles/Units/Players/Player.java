@@ -67,8 +67,10 @@ public abstract class Player extends Unit{
     }
 
     public void onKill(Enemy enemy) {
+        messageCallback.send(String.format("Enemy %s\t\t killed by %s\t\t",enemy.getName(),name));
         this.experience += enemy.getExperienceValue();
         this.swapPosition(enemy);
+        enemy.onDeath();
         if(experience>=50*level)
             LevelUp();
     }

@@ -33,6 +33,9 @@ public abstract class Enemy extends Unit  {
 
     public abstract Action EnemyTurn(Player player) ;
 
+    public void onDeath(){
+        edCallback.call();
+    }
 
     @Override
     public void visit(Player p)

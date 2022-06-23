@@ -32,9 +32,7 @@ public class Monster extends Enemy {
                     return Action.DOWN;
             }
         }
-        else  // Random move
-            RandomMovement();
-        return Action.NOTHING;
+        else return RandomMovement(); // random Move
     }
 
     public Action RandomMovement() {

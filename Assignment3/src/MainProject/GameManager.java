@@ -15,7 +15,7 @@ public class GameManager {
     private GameBoard board;
     private EndGameCallback endGameCallback;
 
-o    public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
+   public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard board){
         this.board = board;
         this.enemies=enemies;
         this.player=player;
@@ -30,41 +30,44 @@ o    public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard
 
     }
     public void runGame(){
+        System.out.println(board.toString());
         while(isActive){
-            System.out.println(board.toString());
             PlayerTurn(player.GetInput());
             //layer.in getInput()
             if(enemies.size() == 0)
                 isActive = false;
             else {
                 for (Enemy e : enemies) {
-                    if(!e.IsAlive())
-                        RemoveEnemy(e);
-                    else {
-                        EnemyTurn(e);
-                    }
+                    EnemyTurn(e);
                 }
             }
+            System.out.println(board.toString());
         }
     }
     public void PlayerTurn(Action input){
         Tile tile;
         switch(input) {
             case UP:
-                tile = board.get(player.getPosition().getXCoordinate(),player.getPosition().getYCoordinate()+1);
-                player.GameTick(tile);
-            case LEFT:
                 tile = board.get(player.getPosition().getXCoordinate()-1,player.getPosition().getYCoordinate());
                 player.GameTick(tile);
-            case RIGHT:
-                tile = board.get(player.getPosition().getXCoordinate()+1,player.getPosition().getYCoordinate());
-                player.GameTick(tile);
-            case DOWN:
+                break;
+            case LEFT:
                 tile = board.get(player.getPosition().getXCoordinate(),player.getPosition().getYCoordinate()-1);
                 player.GameTick(tile);
+                break;
+            case RIGHT:
+                tile = board.get(player.getPosition().getXCoordinate(),player.getPosition().getYCoordinate()+1);
+                player.GameTick(tile);
+                break;
+            case DOWN:
+                tile = board.get(player.getPosition().getXCoordinate()+1,player.getPosition().getYCoordinate());
+                player.GameTick(tile);
+                break;
             case SPECIALABILITY:
               player.AbilityCast(enemies);
+                break;
             case NOTHING:
+                break;
         }
     }
 
@@ -73,18 +76,24 @@ o    public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard
         Tile tile;
         switch (enemy.EnemyTurn(player)){
             case LEFT:
-                tile = board.get(enemy.getPosition().getXCoordinate()-1,enemy.getPosition().getYCoordinate());
+                tile = board.get(enemy.getPosition().getXCoordinate(),enemy.getPosition().getYCoordinate()+1);
                 tile.accept(enemy);
+                break;
             case RIGHT:
                 tile = board.get(enemy.getPosition().getXCoordinate()+1,enemy.getPosition().getYCoordinate());
                 tile.accept(enemy);
+                break;
             case UP:
-                tile = board.get(enemy.getPosition().getXCoordinate(),enemy.getPosition().getYCoordinate()+1);
-                tile.accept(enemy);
-            case DOWN:
                 tile = board.get(enemy.getPosition().getXCoordinate(),enemy.getPosition().getYCoordinate()-1);
                 tile.accept(enemy);
+                break;
+            case DOWN:
+                tile = board.get(enemy.getPosition().getXCoordinate()-1,enemy.getPosition().getYCoordinate());
+                tile.accept(enemy);
+                break;
             case NOTHING:
+                break;
+
         }
     }
     public void UpdateLevel(){
@@ -97,8 +106,9 @@ o    public void Initializer(LinkedList<Enemy> enemies, Player player, GameBoard
 
     public void RemoveEnemy(Enemy enemy) {
         Position p = enemy.getPosition();
-        board.remove(enemy);
-        Empty emptyTile = new Empty(p);
-        board.add(emptyTile);
+        board.remove(enemy , new Empty(p));
+        enemies.remove(enemy);
+    //Empty emptyTile = new Empty(p);
+        //board.add(emptyTile);
     }
 }

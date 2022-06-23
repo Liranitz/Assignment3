@@ -37,7 +37,7 @@ public class Trap extends Enemy {
             ticksCount++;
         if (position.Range(player.getPosition()) < 2)
             player.accept(this);
-        return null;
+        return Action.NOTHING;
     }
 
 }

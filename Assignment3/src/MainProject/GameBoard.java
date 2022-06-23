@@ -33,13 +33,12 @@ public class GameBoard {
         return  tile;
     }
 
-    public void remove(Tile t) {
-        tiles.remove(t);
+    public void remove(Tile tileToRemove , Tile newTile) {
+        tileToRemove = newTile;
     }
 
     public void add(Tile t) {
         tiles.add(t);
-
     }
 
     @Override
