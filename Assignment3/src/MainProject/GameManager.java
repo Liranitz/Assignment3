@@ -33,7 +33,6 @@ public class GameManager {
         System.out.println(board.toString());
         while(isActive){
             PlayerTurn(player.GetInput());
-            //layer.in getInput()
             if(enemies.size() == 0)
                 isActive = false;
             else {
