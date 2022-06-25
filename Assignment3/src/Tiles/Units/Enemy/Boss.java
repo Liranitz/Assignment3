@@ -1,8 +1,10 @@
-package Tiles.Units.HeroicUnit;
+package Tiles.Units.Enemy;
 
 import MainProject.Action;
 import Tiles.Units.Enemy.Monster;
+import Tiles.Units.HeroicUnit.HeroicUnit;
 import Tiles.Units.Players.Player;
+import Tiles.Units.Unit;
 
 public class Boss extends Monster implements HeroicUnit {
     protected int abilityFrequency;
@@ -15,13 +17,14 @@ public class Boss extends Monster implements HeroicUnit {
     }
 
     @Override
-    public Action EnemyTurn(Player player) {
+    public Action enemyTurn(Player player) {
         double distance = this.getPosition().Range(player.getPosition());
-        Action act = super.EnemyTurn(player);
+        Action act = super.enemyTurn(player);
         if (distance < visionRange) {
             if (combatTicks == abilityFrequency) {
                 combatTicks = 0;
                 AbilityCast(player);
+                return Action.NOTHING;
             }
             else
                 combatTicks++;
@@ -32,7 +35,11 @@ public class Boss extends Monster implements HeroicUnit {
     }
 
     @Override
-    public void AbilityCast(Player player) {
-        player.accept(this);
+    public void AbilityCast(Unit u) {
+        messageCallback.send(String.format("%s activated special ability on %s.",name,u.getName()));
+        int damageDone = Math.max(attackPoints - u.defend(),0);
+        u.getHealth().reduceAmount(damageDone);
+        messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.getName()));
+
     }
 }

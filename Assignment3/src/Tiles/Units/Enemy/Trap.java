@@ -5,10 +5,10 @@ import Tiles.Units.Players.Player;
 
 public class Trap extends Enemy {
 
-    protected int visibilityTime;
-    protected int invisibilityTime;
-    protected int ticksCount;
-    protected boolean visible;
+    private int visibilityTime;
+    private int invisibilityTime;
+    private int ticksCount;
+    private boolean visible;
 
     public Trap(char tile,String name,int healthPool,int attackPoints,int defensePoints,int experienceValue, int visibilityTime,int invisibiltyTime){
         super(tile,name,healthPool,attackPoints,defensePoints,experienceValue);
@@ -26,7 +26,7 @@ public class Trap extends Enemy {
     }
 
     @Override
-    public Action EnemyTurn(Player player) {
+    public Action enemyTurn(Player player) {
         if (ticksCount < visibilityTime)
             visible = true;
         else

@@ -2,7 +2,6 @@ package Tiles.Units.Enemy;
 
 import MainProject.Action;
 import Tiles.Units.Players.Player;
-import Tiles.Units.Unit;
 
 import java.util.Random;
 
@@ -15,7 +14,7 @@ public class Monster extends Enemy {
         this.visionRange = visionRange;
     }
 
-    public Action EnemyTurn(Player player) {
+    public Action enemyTurn(Player player) {
         double distance = this.getPosition().Range(player.getPosition());
         if (distance < visionRange) {
             int dx = getPosition().getXCoordinate() - player.getPosition().getXCoordinate();
@@ -32,10 +31,10 @@ public class Monster extends Enemy {
                     return Action.DOWN;
             }
         }
-        else return RandomMovement(); // random Move
+        else return randomMovement(); // random Move
     }
 
-    public Action RandomMovement() {
+    public Action randomMovement() {
         Random random = new Random();
         int num = random.nextInt(5);
         switch (num) {

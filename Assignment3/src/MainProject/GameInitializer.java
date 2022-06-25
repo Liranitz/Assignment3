@@ -1,18 +1,14 @@
 package MainProject;
 
-import CallBacks.EnemyDeathCallback;
-import CallBacks.MessageCallback;
-import CallBacks.PlayerDeathCallback;
 import Tiles.Empty;
-import Tiles.Position;
+import Tiles.Units.Position;
 import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Enemy.Monster;
 import Tiles.Units.Enemy.Trap;
-import Tiles.Units.HeroicUnit.Boss;
+import Tiles.Units.Enemy.Boss;
 import Tiles.Units.Players.*;
 import Tiles.Wall;
-import jdk.jshell.spi.ExecutionControl;
 
 import java.util.*;
 import java.util.function.Function;
@@ -58,14 +54,14 @@ public class GameInitializer {
                 () -> new Boss('M', "The Mountain", 1000, 60, 25, 500, 6, 5),
                 () -> new Boss('C', "Queen Cersei", 100, 10, 10, 1000, 1, 8),
                 () -> new Boss('K', "Night's King", 5000, 300, 150, 5000, 8, 3),
-                () -> new Trap('B', "Bonus Tiles.Units.Enemy.Trap", 1, 1, 1, 250, 1, 10),
-                () -> new Trap('Q', "Queen's Tiles.Units.Enemy.Trap", 250, 50, 10, 100, 3, 10),
-                () -> new Trap('D', "Death Tiles.Units.Enemy.Trap", 500, 100, 20, 250, 1, 10)
+                () -> new Trap('B', "Bonus Trap", 1, 1, 1, 250, 1, 5),
+                () -> new Trap('Q', "Queen's Trap", 250, 50, 10, 100, 3, 7),
+                () -> new Trap('D', "Death Trap", 500, 100, 20, 250, 1, 10)
         );
 
         return enemies.stream().collect(Collectors.toMap(s -> s.get().getTile(), Function.identity()));
     }
-    public void Initialize(Player player){
+    public void initialize(Player player){
         LinkedList<Tile> tileList = new LinkedList<>();
         LinkedList<Enemy> enemies = new LinkedList<>();
         GameManager gameManager = new GameManager();
@@ -77,23 +73,23 @@ public class GameInitializer {
                     tileList.add(produceWall(pos));
                else if(boardChar[i][j]=='@') {// player case
                     player.initialize(pos);
-                    player.SetPlayerDeathCallback(()-> gameManager.EndGame());
-                    player.SetMessageCallback(s-> System.out.println(s));
+                    player.setPlayerDeathCallback(()-> gameManager.EndGame());
+                    player.setMessageCallback(s-> System.out.println(s));
                     tileList.add(player);
                 }
                 else if(boardChar[i][j]=='.')// empty case
                     tileList.add(produceEmpty(pos));
                 else {// enemy case
                     Enemy enemy = produceEnemy(boardChar[i][j], pos);
-                    enemy.SetEnemyDeathCallback(()->gameManager.RemoveEnemy(enemy));
-                    enemy.SetMessageCallback(s-> System.out.println(s));
+                    enemy.setEnemyDeathCallback(()->gameManager.RemoveEnemy(enemy));
+                    enemy.setMessageCallback(s-> System.out.println(s));
                     enemies.add(enemy);
                     tileList.add(enemy);
                 }
             }
         }
         GameBoard gameboard = new GameBoard(tileList);
-        gameManager.Initializer(enemies,player,gameboard);
+        gameManager.initialize(enemies,player,gameboard);
         gameManager.runGame();
     }
 
@@ -118,15 +114,30 @@ public class GameInitializer {
             return wall;
         }
 
-        public Player ChoosePlayer() {
-            String res ="Choose a Player"+"\n";
+        public Player choosePlayer() {
+            String res = "Choose a Player" + "\n";
+            int counter = 1;
             for (Supplier<Player> s : playerPool) {
-                   res+=s.get().describe()+"\n";
+                res += counter + ") " + s.get().describe() + "\n";
+                counter++;
             }
             System.out.println(res);
-            Scanner scan = new Scanner(System.in);
-            int idx = scan.nextInt();
-            this.player = producePlayer(idx);
+            List<Integer> validCommands = Arrays.asList(1, 2, 3, 4, 5, 6, 7);
+
+            boolean started = false;
+            while (!started) {
+                Scanner scan = new Scanner(System.in);
+                int idx = scan.nextInt();
+                if (!validCommands.contains(idx)) {
+                    System.out.println("Invalid command");
+                    System.out.println(res);
+                }
+                else {
+                    this.player = producePlayer(idx - 1);
+                    System.out.println(String.format("You chose the player : \n %s", this.player.getName()));
+                    started = true;
+                }
+            }
             return player;
         }
 }

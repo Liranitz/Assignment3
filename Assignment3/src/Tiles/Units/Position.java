@@ -1,8 +1,8 @@
-package Tiles;
+package Tiles.Units;
 
 public class Position implements  Comparable<Position> {
-    protected int xCoordinate;
-    protected int yCoordinate;
+    private int xCoordinate;
+    private int yCoordinate;
 
     public Position(int xCoordinate, int yCoordinate){
         this.yCoordinate = yCoordinate;

@@ -1,5 +1,6 @@
 package Tiles;
 
+import Tiles.Units.Position;
 import Tiles.Units.Unit;
 
 public class Wall extends Tile {
@@ -11,6 +12,6 @@ public class Wall extends Tile {
     @Override
     public void accept(Unit unit) {
         return;
-        // do nothing becuase its a wall
+
     }
 }

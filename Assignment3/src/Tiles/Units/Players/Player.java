@@ -1,55 +1,56 @@
 package Tiles.Units.Players;
 
-import CallBacks.EnemyDeathCallback;
-import CallBacks.MessageCallback;
 import CallBacks.PlayerDeathCallback;
 import MainProject.Action;
 import MainProject.InputProvider;
-import Tiles.Position;
+import Tiles.Units.Position;
 import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
+import Tiles.Units.Resource;
 import Tiles.Units.Unit;
 
 import java.util.List;
 
-public abstract class Player extends Unit{
-    Integer experience;
-    Integer level;
+public abstract class Player extends Unit  {
+    private Resource experience;
+    protected Integer level;
     private PlayerDeathCallback pdCallback;
     private InputProvider inputProvider;
 
     public Player (Integer pool,  String name , Integer attack, Integer defence) {
         super('@',name , pool , attack, defence);
-        this.experience = 0;
         this.level = 1;
+        experience = new Resource(50*level);
+        experience.updateAmount(0);
         inputProvider = new InputProvider();
     }
+    public void levelUp(){
+        health.updatePool(10 * level);
+        experience.updateAmount(experience.getAmount()-(50*level));
+        level++;
+        experience.updatePool(50*level);
+        health.updatePool(health.getPool() + (10 * level));
+        health.updateAmount(health.getPool());
+        attackPoints = attackPoints + (4 * level);
+        defensePoints = defensePoints + (level);
+        messageCallback.send(String.format("Player %s reached level %d +%d Health  +%d Attack  +%d Defence",name,level,10 * level,4*level,level));
+    }
 
-    public abstract void GameTick(Tile t);
+    public abstract void gameTick(Tile t);
 
     public void initialize(Position position){
         super.initialize(position);
-
     }
 
-    public void SetPlayerDeathCallback(PlayerDeathCallback pdCallback){
+    public void setPlayerDeathCallback(PlayerDeathCallback pdCallback){
         this.pdCallback=pdCallback;
     }
 
-    public void LevelUp(){
-        health.AddPool(10 * level);
-        level++;
-        experience = experience - (50 * level);
-        health.AddPool(health.getPool() + (10 * level));
-        health.UpdateAmount(health.getPool());
-        attackPoints = attackPoints + (4 * level);
-        defensePoints = defensePoints + (level);
-    }
-
-    public abstract void AbilityCast(List<Enemy> enemyList);
 
 
-    public Action GetInput() {
+    public abstract void abilityCast(List<Enemy> enemyList);
+
+    public Action getInput() {
         return inputProvider.getInput();
     }
 
@@ -59,20 +60,17 @@ public abstract class Player extends Unit{
     }
 
     public void onDeath() {
+        tile='X';
         pdCallback.call();
     }
 
-    public void AddExp(Integer exp){
-        this.experience += exp;
-    }
-
     public void onKill(Enemy enemy) {
-        messageCallback.send(String.format("Enemy %s\t\t killed by %s\t\t",enemy.getName(),name));
-        this.experience += enemy.getExperienceValue();
-        this.swapPosition(enemy);
+        messageCallback.send(String.format("Enemy %s killed by %s\n%s has gained +%d experience",enemy.getName(),name,name,enemy.getExperienceValue()));
+        experience.updateAmount(experience.getAmount()+enemy.getExperienceValue());
         enemy.onDeath();
-        if(experience>=50*level)
-            LevelUp();
+            while(experience.getAmount()>=50*level)
+                levelUp();
+
     }
 
     @Override
@@ -81,8 +79,21 @@ public abstract class Player extends Unit{
     @Override
     public void visit(Enemy e) {
         battle(e);
-        if (!e.IsAlive())
+        if (!e.IsAlive()) {
+            swapPosition(e);
             onKill(e);
-    }
 
+        }
+    }
+    public int getLevel(){
+        return level;
+    }
+    public int getExperience(){
+        return experience.getAmount();
+    }
+    @Override
+    public String describe() {
+        String describe = super.describe();
+        return describe+String.format(" Level: %d\t\t Experience: %d/%d", level, experience.getAmount(), experience.getPool());
+    }
 }

@@ -1,9 +1,7 @@
 package Tiles.Units;
 
 import CallBacks.MessageCallback;
-import CallBacks.PlayerDeathCallback;
 import Tiles.Empty;
-import Tiles.Position;
 import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Players.Player;
@@ -30,7 +28,7 @@ public abstract class Unit extends Tile {
         super.initialize(position);
     }
 	
-    protected int attack(){
+    public int attack(){
         Random r = new Random();
 		int result =  r.nextInt(attackPoints);
         messageCallback.send(String.format("%s rolled %d attack points.",name,result));
@@ -44,39 +42,24 @@ public abstract class Unit extends Tile {
         return result;
     }
 
-    public void AddAmount(int amount){health.amount = health.amount+amount;}
-    public void ReduceAmount(int amount){
-        if(amount > 0)
-            health.amount = health.amount-amount;
-    }
-
-    public void SetMessageCallback(MessageCallback messageCallback){
+    public void setMessageCallback(MessageCallback messageCallback){
         this.messageCallback = messageCallback;
     }
 
-	// What happens when the unit dies
-    //public abstract void onDeath(Enemy enemy);
-    //public abstract void onDeath(Player player);
 
-	// This unit attempts to interact with another tile.
-    public void interact(Tile tile){
-        tile.accept(this);
-    }
-
-    public void visit(Empty e){
-        SwapPositions(e);
-    }
-
-    public void SwapPositions(Tile tile){
+    public void swapPositions(Tile tile){
         Position p = tile.getPosition();
         tile.setPosition(this.getPosition());
         this.setPosition(p);
     }
     public boolean IsAlive(){
-        return health.amount>0;
+        return health.getAmount()>0;
     }
 
-    public void visit(Wall e){}
+    public void visit(Wall w){}
+    public void visit(Empty e){
+        swapPositions(e);
+    }
 
     public abstract void visit(Player p);
     public abstract void visit(Enemy e);
@@ -86,13 +69,16 @@ public abstract class Unit extends Tile {
     protected void battle(Unit u){
             messageCallback.send(String.format("%s engaged in combat with %s.\n%s\n%s",name,u.name,describe(),u.describe()));
             int damageDone = Math.max(attack() - u.defend(),0);
-            u.health.ReduceAmount(damageDone);
+            u.health.reduceAmount(damageDone);
             messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.name));
     }
     public String describe() {
-        return String.format("%s\t\tHealth: %s\t\tAttack: %d\t\tDefense: %d", name, health.getAmount(), attackPoints, defensePoints);
+        return String.format("%s\t\tHealth: %d/%d\t\tAttack: %d\t\tDefense: %d\t\t", name, health.getAmount(),health.getPool(), attackPoints, defensePoints);
     }
     public String getName(){
         return name;
+    }
+    public Resource getHealth(){
+        return health;
     }
 }

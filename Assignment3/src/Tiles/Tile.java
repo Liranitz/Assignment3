@@ -1,10 +1,7 @@
 package Tiles;
 
-import CallBacks.MessageCallback;
+import Tiles.Units.Position;
 import Tiles.Units.Unit;
-
-
-import java.util.Random;
 
 public abstract class Tile implements Comparable<Tile> {
     protected char tile;
@@ -43,20 +40,16 @@ public abstract class Tile implements Comparable<Tile> {
     }
 
 
-    public void visit(Empty e){
-        swapPosition(e);
-    }
 
     public void swapPosition(Tile t) {
-        Position p = t.getPosition();
+        Position p =  new Position(position.getXCoordinate(), position.getYCoordinate());
         this.setPosition(t.getPosition());
         t.setPosition(p);
     }
 
-    public void Visit(Wall w){
-        return;
+    public void visit(Empty e){
+        swapPosition(e);
     }
-
-
+    public void Visit(Wall w){}
 
 }
