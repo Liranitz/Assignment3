@@ -1,5 +1,4 @@
 package MainProject;
-import CallBacks.EndGameCallback;
 import Tiles.Empty;
 import Tiles.Units.Position;
 import Tiles.Tile;
@@ -13,17 +12,13 @@ public class GameManager {
     private Player player;
     private  boolean isActive;
     private GameBoard board;
-     private EndGameCallback endGameCallback;
+
 
    public void initialize(LinkedList<Enemy> enemies, Player player, GameBoard board){
         this.board = board;
         this.enemies=enemies;
         this.player=player;
         isActive=true;
-    }
-
-    public void SetEndGameCallback(EndGameCallback endGameCallback){
-        this.endGameCallback = endGameCallback;
     }
 
     public GameManager(){
@@ -106,6 +101,7 @@ public class GameManager {
     }
     public void EndGame(){
         System.out.println("Player died - Game is Over");
+        System.out.println(board.toString());
         System.exit(0);
     }
 }
