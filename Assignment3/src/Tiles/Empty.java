@@ -1,5 +1,6 @@
 package Tiles;
 
+import Tiles.Units.Position;
 import Tiles.Units.Unit;
 
 public class Empty extends Tile {
@@ -9,7 +10,7 @@ public class Empty extends Tile {
     }
 
     @Override
-    public void accept(Unit unit) {
-    unit.visit(this);
+    public void accept(Unit u) {
+    u.visit(this);
     }
 }

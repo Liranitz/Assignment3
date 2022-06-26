@@ -1,17 +1,7 @@
 package MainProject;
 
-import CallBacks.MessageCallback;
-import Tiles.Empty;
 import Tiles.Tile;
-import Tiles.Units.Enemy.Enemy;
-import Tiles.Units.Players.Player;
-import Tiles.Units.Unit;
-import Tiles.Position;
-import org.w3c.dom.ls.LSOutput;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,8 +23,9 @@ public class GameBoard {
         return  tile;
     }
 
-    public void remove(Tile tileToRemove , Tile newTile) {
-        tileToRemove = newTile;
+    public void remove(Tile tileToRemove) {
+        Tile tileToGet = get(tileToRemove.getPosition().getXCoordinate(),tileToRemove.getPosition().getYCoordinate());
+        tiles.remove((tileToGet));
     }
 
     public void add(Tile t) {
@@ -51,7 +42,7 @@ public class GameBoard {
                 res += "\n";
                 rowCounter++;
             }
-            res+=tile.getTile();
+            res+=tile.toString();
         }
         // TODO: Implement me
         // sort all the tiles in the list, print char's tile

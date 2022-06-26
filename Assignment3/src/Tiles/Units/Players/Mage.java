@@ -2,53 +2,43 @@ package Tiles.Units.Players;
 
 import Tiles.Tile;
 import Tiles.Units.Enemy.Enemy;
+import Tiles.Units.Resource;
 
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
 public class Mage extends Player {
-    private Integer manaPool;
-    private Integer currentMana;
+    private Resource mana;
     private Integer manaCost;
     private Integer spellPower;
     private Integer hitsCount;
     private Integer abilityRange;
 
-    public Mage(String name , Integer HealthPool , Integer attack, Integer defence, Integer ManaPool ,Integer ManaCost,Integer SpellPower , Integer HitCount , Integer AbilityRange) {
+    public Mage(String name , Integer HealthPool , Integer attack, Integer defence, Integer manaPool ,Integer ManaCost,Integer SpellPower , Integer HitCount , Integer AbilityRange) {
         super(HealthPool, name,attack, defence);
-        this.manaPool = ManaPool;
-        this.currentMana = manaPool / 4;
+        this.mana = new Resource(manaPool);
+        this.mana.updateAmount(manaPool/4);
         this.spellPower = SpellPower;
         this.hitsCount = HitCount;
         this.abilityRange = AbilityRange;
         this.manaCost = ManaCost;
     }
 
-    public void LevelUp(){
-        super.LevelUp();
-        manaPool = manaPool + 25*level;
-        int curMana1 = currentMana + manaPool / 4;
-        if(curMana1 > manaPool)
-            currentMana = manaPool;
-        else{
-            currentMana = curMana1;
-        }
+    public void levelUp(){
+        super.levelUp();
+        this.mana.updatePool(this.mana.getPool() + 25*level);
+        this.mana.updateAmount(Math.min(mana.getPool(),mana.getAmount() + mana.getPool() / 4));
         spellPower = spellPower + 10*level;
     }
-    public void GameTick(Tile e) {
-        int curMana1 = currentMana + level;
-        if (curMana1 > manaPool) {
-            currentMana = manaPool;
-        } else {
-            currentMana = curMana1;
-        }
+    public void gameTick(Tile e) {
+        this.mana.updateAmount(Math.min(mana.getPool(),mana.getAmount() + level));
         e.accept(this);
     }
 
-    public void AbilityCast(List<Enemy> enemyList) {
-        if(currentMana <= manaCost) {
-            currentMana = currentMana - manaCost;
+    public void abilityCast(List<Enemy> enemyList) {
+        if(mana.getAmount() <= manaCost) {
+            mana.updateAmount(mana.getAmount() - manaCost);
             int hits = 0;
             while(hits < hitsCount){
                 List<Enemy> enemies = enemyList.stream().filter(x -> this.position.Range(x.getPosition()) < abilityRange ).collect(Collectors.toList());
@@ -56,7 +46,11 @@ public class Mage extends Player {
                     Random r = new Random();
                     int i = r.nextInt(enemies.size());
                     Enemy e = enemies.get(i);
-                    e.ReduceAmount(this.spellPower - enemies.get(i).defend());
+                    messageCallback.send(String.format("%s cast Blizzard on : %s.",name,e.getName()));
+                    int eDef = e.defend();
+                    int damage = this.spellPower - eDef;
+                    e.getHealth().reduceAmount(damage);
+                    messageCallback.send(String.format("%s dealt %d damage to %s.",name,damage,e.getName()));
                     if(!e.IsAlive()){
                         this.onKill(e);
                     }
@@ -65,7 +59,14 @@ public class Mage extends Player {
             }
         }
         else{
-            messageCallback.send("not enough mana");
+            messageCallback.send(String.format("Player %s does not have enough mana to cast special abilty ",name));
         }
+    }
+    @Override
+    public String describe() {
+        String describe = super.describe();
+        return describe+String.format("\n\t Mana: %d/%d\t\t Special Ability cost: %d\t\t" +
+                " Spell Power : %d\t\t Hits Count : %d\t\t Ability Range : %d"
+                , mana.getAmount(), mana.getPool(), manaCost , spellPower , hitsCount , abilityRange);
     }
 }

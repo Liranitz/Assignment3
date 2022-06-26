@@ -4,6 +4,9 @@ import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Players.Player;
 import Tiles.Units.Unit;
 
-interface HeroicUnit{
-    public void AbilityCast(Player player);
+import java.util.List;
+
+public interface HeroicUnit{
+    public void AbilityCast(Unit u);
+
 }
