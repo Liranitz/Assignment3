@@ -50,8 +50,9 @@ public class Warrior extends Player {
 
     public void levelUp(){
         super.levelUp();
-        super.health.updatePool(5*level);
-        super.attackPoints += level;
+        super.health.updatePool(health.getPool() + 5*level);
+        super.attackPoints += level*2;
+        super.defensePoints += level;
         cooldown.updateAmount(0);
     }
 

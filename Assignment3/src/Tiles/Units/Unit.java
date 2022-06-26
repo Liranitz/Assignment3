@@ -66,7 +66,7 @@ public abstract class Unit extends Tile {
 
 
 	// Combat against another unit.
-    protected void battle(Unit u){
+    public void battle(Unit u){
             messageCallback.send(String.format("%s engaged in combat with %s.\n%s\n%s",name,u.name,describe(),u.describe()));
             int damageDone = Math.max(attack() - u.defend(),0);
             u.health.reduceAmount(damageDone);
@@ -81,4 +81,6 @@ public abstract class Unit extends Tile {
     public Resource getHealth(){
         return health;
     }
+    public int getAttackPoints(){ return attackPoints;}
+    public int getDefensePoints(){ return defensePoints;}
 }
