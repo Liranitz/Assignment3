@@ -25,7 +25,6 @@ public abstract class Player extends Unit  {
         inputProvider = new InputProvider();
     }
     public void levelUp(){
-        health.updatePool(10 * level);
         experience.updateAmount(experience.getAmount()-(50*level));
         level++;
         experience.updatePool(50*level);
