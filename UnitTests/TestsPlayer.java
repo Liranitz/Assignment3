@@ -45,7 +45,7 @@ public class TestsPlayer extends MainTests{
         wall1.accept(player1);
         Assert.assertEquals(0, player1.getPosition().compareTo(pos5));
     }
-
+    @Test
     public void specialAb(){
         player1.abilityCast(enemies);
 

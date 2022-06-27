@@ -12,6 +12,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+
 public class EnemyTests  extends MainTests{
 
     @Test
@@ -41,5 +42,32 @@ public class EnemyTests  extends MainTests{
         Action cur = enemy1.enemyTurn(player1);
         Assert.assertEquals(Action.UP, cur);
     }
+
+    @Test
+    public void bossSpecialAbility(){
+        int healthBeforeTest = player1.getHealth().getAmount();
+        boss1.AbilityCast(player1);
+        Assert.assertEquals(true, player1.getHealth().getAmount()<=healthBeforeTest);
+    }
+
+    @Test
+    public void trapVisibility(){
+        trap1.enemyTurn(player1);
+        trap1.enemyTurn(player1);
+        Assert.assertEquals(true,trap1.isVisible());
+    }
+    @Test
+    public void trapInvisibility(){
+        trap1.enemyTurn(player1);
+        trap1.enemyTurn(player1);
+        trap1.enemyTurn(player1);
+        trap1.enemyTurn(player1);
+
+        Assert.assertEquals(false,trap1.isVisible());
+
+    }
+
+
+
 
 }

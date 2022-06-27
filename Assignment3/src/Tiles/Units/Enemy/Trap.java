@@ -40,4 +40,7 @@ public class Trap extends Enemy {
         return Action.NOTHING;
     }
 
+    public boolean isVisible() {
+        return visible;
+    }
 }

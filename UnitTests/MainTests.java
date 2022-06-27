@@ -1,8 +1,10 @@
 import MainProject.Action;
 import Tiles.Empty;
 import Tiles.Tile;
+import Tiles.Units.Enemy.Boss;
 import Tiles.Units.Enemy.Enemy;
 import Tiles.Units.Enemy.Monster;
+import Tiles.Units.Enemy.Trap;
 import Tiles.Units.Players.Player;
 import Tiles.Units.Players.Warrior;
 import Tiles.Units.Position;
@@ -19,6 +21,8 @@ public class MainTests {
     public Player player1;
     public Monster enemy1;
     public Monster enemy2;
+    public Trap trap1;
+    public Boss boss1;
     public Position pos1;
     public Position pos2;
     public Position pos3;
@@ -31,6 +35,8 @@ public class MainTests {
         player1 = new Warrior("Jon Snow", 300, 30, 4, 3);
         enemy1 = new Monster('s', "Lannister Solider", 80, 8, 3, 25, 3);
         enemy2 = new Monster('w', "White Walker", 2000, 150, 50, 1000, 6);
+        boss1 = new Boss('M', "The Mountain", 1000, 60, 25, 500, 6, 5);
+        trap1 = new Trap('Q', "Queen's Trap", 250, 50, 10, 100, 3, 7);
         pos1 = new Position(5, 4);
         pos2 = new Position(4, 4);
         pos3 = new Position(7, 4);
@@ -41,8 +47,12 @@ public class MainTests {
         empty1 = new Empty(pos4);
         enemy1.setPosition(pos1);
         enemy2.setPosition(pos2);
+        trap1.setPosition(pos2);
+        boss1.setPosition(pos1);
         player1.setMessageCallback(s -> System.out.println(s));
         enemy1.setMessageCallback(s -> System.out.println(s));
+        trap1.setMessageCallback(s-> System.out.println(s));
+        boss1.setMessageCallback(s-> System.out.println(s));
         enemies = new LinkedList<Enemy>();
         enemies.add(enemy1);
     }
