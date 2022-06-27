@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 public class Warrior extends Player {
     private Resource cooldown;
 
-    public Warrior(String name , Integer pool , Integer defence, Integer attack ,Integer abilityCooldown) {
+    public Warrior(String name , Integer pool , Integer attack, Integer defence ,Integer abilityCooldown) {
         super(pool, name , attack, defence);
         cooldown = new Resource(abilityCooldown);
         cooldown.updateAmount(0);

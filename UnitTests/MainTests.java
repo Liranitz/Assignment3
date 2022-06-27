@@ -109,15 +109,15 @@ public class MainTests {
     public void specialAb() {
         player1.abilityCast(enemies);
         // need to figure out how to do it properly , enemy has 80 , demage is 30
-        int newAmount = (int) enemies.get(0).getHealth().getAmount();
+        int newAmount = enemies.get(0).getHealth().getAmount();
         Assert.assertEquals(true, 50 <= newAmount && newAmount < 80);
     }
 
     @Test
     public void PlayerAttackEnemy() {
-        int preAmount = (int) enemies.get(0).getHealth().getAmount();
+        int preAmount = enemies.get(0).getHealth().getAmount();
         player1.battle(enemy1);
-        int newAmount = (int) enemies.get(0).getHealth().getAmount();
+        int newAmount = enemies.get(0).getHealth().getAmount();
         Assert.assertEquals(true, newAmount <= preAmount);
     }
 
