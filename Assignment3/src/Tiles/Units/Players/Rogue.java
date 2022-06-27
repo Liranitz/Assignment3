@@ -47,6 +47,6 @@ public class Rogue extends Player {
     }
     public String describe() {
         String describe = super.describe();
-        return describe+String.format("\n\t Energy: %d/%d\t\t Special Ability cost: %d", energy.getAmount(), energy.getPool(), cost);
+        return describe+String.format("\n\t Energy: %d/%d\t Special Ability cost: %d", energy.getAmount(), energy.getPool(), cost);
     }
 }

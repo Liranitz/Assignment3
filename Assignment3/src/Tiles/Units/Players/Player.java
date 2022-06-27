@@ -93,6 +93,6 @@ public abstract class Player extends Unit  {
     @Override
     public String describe() {
         String describe = super.describe();
-        return describe+String.format(" Level: %d\t\t Experience: %d/%d", level, experience.getAmount(), experience.getPool());
+        return describe+String.format(" Level: %d\t Experience: %d/%d", level, experience.getAmount(), experience.getPool());
     }
 }

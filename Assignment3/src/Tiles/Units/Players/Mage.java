@@ -65,8 +65,8 @@ public class Mage extends Player {
     @Override
     public String describe() {
         String describe = super.describe();
-        return describe+String.format("\n\t Mana: %d/%d\t\t Special Ability cost: %d\t\t" +
-                " Spell Power : %d\t\t Hits Count : %d\t\t Ability Range : %d"
+        return describe+String.format("\n\t Mana: %d/%d\t Special Ability cost: %d\t" +
+                " Spell Power : %d\t Hits Count : %d\t Ability Range : %d"
                 , mana.getAmount(), mana.getPool(), manaCost , spellPower , hitsCount , abilityRange);
     }
 }

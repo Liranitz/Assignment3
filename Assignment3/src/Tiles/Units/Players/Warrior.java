@@ -58,7 +58,7 @@ public class Warrior extends Player {
 
     public String describe() {
         String describe = super.describe();
-        return describe+String.format("\t\tAbility Cooldown : %d/%d" ,  cooldown.getAmount(), cooldown.getPool());
+        return describe+String.format("\tAbility Cooldown : %d/%d" ,  cooldown.getAmount(), cooldown.getPool());
     }
 
 }

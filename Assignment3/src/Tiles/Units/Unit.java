@@ -73,7 +73,7 @@ public abstract class Unit extends Tile {
             messageCallback.send(String.format("%s dealt %d damage to %s.",name,damageDone,u.name));
     }
     public String describe() {
-        return String.format("%s\t\tHealth: %d/%d\t\tAttack: %d\t\tDefense: %d\t\t", name, health.getAmount(),health.getPool(), attackPoints, defensePoints);
+        return String.format("%s\tHealth: %d/%d\tAttack: %d\tDefense: %d\t", name, health.getAmount(),health.getPool(), attackPoints, defensePoints);
     }
     public String getName(){
         return name;

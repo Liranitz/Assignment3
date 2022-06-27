@@ -56,6 +56,6 @@ public class Hunter extends Player {
     }
     public String describe() {
         String describe = super.describe();
-        return describe+String.format("\t\tArrows : %d\t\t TicksCount :%d\t Range: %d\t" ,  arrows.getAmount(), ticksCount , range);
+        return describe+String.format("\tArrows : %d\t TicksCount :%d\t Range: %d\t" ,  arrows.getAmount(), ticksCount , range);
     }
 }
