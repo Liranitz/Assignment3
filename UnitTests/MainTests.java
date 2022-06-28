@@ -90,10 +90,10 @@ public class MainTests {
 
     @Test
     public void EnemyAttackPlayer() {
-        int preAmount = (int) player1.getHealth().getAmount();
+        int preAmount = player1.getHealth().getAmount();
         enemy1.battle(player1);
-        int newAmount = (int) enemies.get(0).getHealth().getAmount();
-        Assert.assertEquals(true, newAmount <= preAmount && newAmount >= newAmount - enemy1.getAttackPoints());
+        int newAmount = enemies.get(0).getHealth().getAmount();
+        Assert.assertEquals(true, newAmount <= preAmount);
     }
 
     //--------- Player Tests ------- //
@@ -118,7 +118,6 @@ public class MainTests {
     @Test
     public void specialAb() {
         player1.abilityCast(enemies);
-        // need to figure out how to do it properly , enemy has 80 , demage is 30
         int newAmount = enemies.get(0).getHealth().getAmount();
         Assert.assertEquals(true, 50 <= newAmount && newAmount < 80);
     }
