@@ -127,15 +127,20 @@ public class GameInitializer {
             boolean started = false;
             while (!started) {
                 Scanner scan = new Scanner(System.in);
-                int idx = scan.nextInt();
-                if (!validCommands.contains(idx)) {
-                    System.out.println("Invalid command");
-                    System.out.println(res);
+                try {
+                    int idx = scan.nextInt();
+                    /*if (!validCommands.contains(idx)) {
+                        System.out.println("Invalid command");
+                        System.out.println(res);*/
+                    //}
+                //else {
+                        this.player = producePlayer(idx - 1);
+                        System.out.println(String.format("You chose the player : \n %s", this.player.getName()));
+                        started = true;
+                  //  }
                 }
-                else {
-                    this.player = producePlayer(idx - 1);
-                    System.out.println(String.format("You chose the player : \n %s", this.player.getName()));
-                    started = true;
+                catch (Exception ex){
+
                 }
             }
             return player;
